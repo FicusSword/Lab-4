@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=2.0">
+    <title>Малыгин Александр</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5; 
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #fff; 
+        }
+
+        th, td {
+            border: 1px solid #dDdddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #6c5656;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>List of Employees</h2>
+    <div>
+        <input type="hidden" id="clientId">
+        <p>
+            Employee:<br>
+            <input id="clientName" type="text">
+        </p>
+        <p>
+            Age:<br>
+            <input id="clientAge" type="number">
+        </p>
+        <p>
+            <button id="saveBtn">Save</button>
+            <button id="resetBtn">Reset</button>
+        </p>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="clientTableBody"></tbody>
+    </table>
+
+    <script>
+        async function createClient(name, age) {
+            const response = await fetch("api/clients", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name: name, age: age })
+            });
+
+            if (response.ok === true) {
+                const client = await response.json();
+                const newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                            <td>${client.name}</td>
+                            <td>${client.age}</td>
+                            <td>
+                                <button onclick="editClient(${client.id})">Change</button>
+                                <button onclick="deleteClient(${client.id})">Delete</button>
+                            </td>
+                        `;
+                document.getElementById("clientTableBody").appendChild(newRow);
+            }
+        }
+
+        function reset() {
+            document.getElementById("clientId").value = "";
+            document.getElementById("clientName").value = "";
+            document.getElementById("clientAge").value = "";
+        }
+
+        document.getElementById("resetBtn").addEventListener("click", reset);
+
+        document.getElementById("saveBtn").addEventListener("click", () => {
+            const id = document.getElementById("clientId").value;
+            const name = document.getElementById("clientName").value;
+            const age = document.getElementById("clientAge").value;
+            if (!id) { createClient(name, age); }
+            else { editClient(id); }
+            reset();
+        });
+        async function editClient(id) {
+            await getClient(id);
+        }
+        async function getClients() {
+            const response = await fetch("/api/clients", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+
+            if (response.ok === true) {
+                const clients = await response.json();
+                const clientTableBody = document.getElementById("clientTableBody");
+
+                clients.forEach(client => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                                <td>${client.name}</td>
+                                <td>${client.age}</td>
+                                <td>
+                                    <button onclick="editClient(${client.id})">Change</button>
+                                    <button onclick="deleteClient(${client.id})">Delete</button>
+                                </td>
+                            `;
+                    clientTableBody.appendChild(row);
+                });
+            }
+        }
+
+        async function deleteClient(id) {
+            const response = await fetch(`/api/clients/${id}`, {
+                method: "DELETE",
+                headers: { "Accept": "application/json" }
+            });
+
+            if (response.ok === true) {
+                document.getElementById("clientId").value = "";
+                document.getElementById("clientName").value = "";
+                document.getElementById("clientAge").value = "";
+
+                const rows = document.querySelectorAll(`tr[data-rowid="${id}"]`);
+                rows.forEach(row => row.remove());
+            }
+        }
+
+        async function getClient(id) {
+            const response = await fetch(`/api/clients/${id}`, {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+
+            if (response.ok === true) {
+                const client = await response.json();
+                document.getElementById("clientId").value = client.id;
+                document.getElementById("clientName").value = client.name;
+                document.getElementById("clientAge").value = client.age;
+            }
+        }
+        getClients();
+    </script>
+</body>
+</html>
