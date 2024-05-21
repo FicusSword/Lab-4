@@ -9,6 +9,8 @@ import { Page } from './Page';
 import { Task } from './DailyPage/DailyTaskPage';
 import { Cart } from './Cart';
 import { PageTwo } from './Page2';
+import { RegisterPage } from './AuthOBJ/RegisterPage';
+
 
 
 const App: React.FC = () => {
@@ -22,6 +24,7 @@ const App: React.FC = () => {
       <MouseTracker />
       <Routes>
         <Route path="" element={<LoginPage/>}/>
+        <Route path="/register" element={<RegisterPage/>}/>
         <Route path="/home" element={<MainPage/>}/>
         <Route path="/page" element={<Page/>}/>
         <Route path="/page2" element={<PageTwo/>}/>

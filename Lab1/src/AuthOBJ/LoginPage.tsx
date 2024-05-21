@@ -18,24 +18,30 @@ export function LoginPage(){
     };
 
     const handleLogin = () => {
-        axios.post('https://localhost:7039/api/clients', {
-            name: username,
-            age: password
-        })
-        .then(() => {
-            setLoggedIn(true);
-            setUsername('');
-            setPassword('');
-            setError('');
-            
-            const token = generateToken();
+        axios.get('https://localhost:7039/api/clients')
+        .then(response => {
+            const clients = response.data;
+            const client = clients.find((c: { name: string; age: number; }) => c.name === username && c.age.toString() === password);
 
-            localStorage.setItem('accessToken', token);
-            setAccessToken(token);
-            window.location.href = "/home"; 
+            if (client) {
+                setLoggedIn(true);
+                setUsername('');
+                setPassword('');
+                setError('');
+
+                const token = generateToken();
+
+                localStorage.setItem('accessToken', token);
+                setAccessToken(token);
+                window.location.href = "/home"; 
+            } else {
+                setError('incorrect username or password');
+                setUsername('');
+                setPassword('');
+            }
         })
         .catch(() => {
-            setError('incorect username or password');
+            setError('error fetching data');
             setUsername('');
             setPassword('');
         });
@@ -73,6 +79,9 @@ export function LoginPage(){
 
                             <Button variant="primary" type="button" onClick={handleLogin}>
                                 Login
+                            </Button>
+                            <Button variant="primary" type="button" href="/register">
+                                Reg
                             </Button>
                         </Form>
                     </Col>
