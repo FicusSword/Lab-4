@@ -10,6 +10,7 @@ import { Task } from './DailyPage/DailyTaskPage';
 import { Cart } from './Cart';
 import { PageTwo } from './Page2';
 import { RegisterPage } from './AuthOBJ/RegisterPage';
+import { AdminPanel } from './AdminPanel';
 
 
 
@@ -30,6 +31,8 @@ const App: React.FC = () => {
         <Route path="/page2" element={<PageTwo/>}/>
         <Route path="/Task" element={<Task/>}/>
         <Route path="/Cart" element={<Cart/>}/>
+        <Route path="/Admin" element={<AdminPanel/>}/>
+        <Route path="/product/:productId" element={<Page/>} />
       </Routes>
     </>
     </BrowserRouter>

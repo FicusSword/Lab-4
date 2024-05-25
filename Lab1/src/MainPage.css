@@ -1,0 +1,60 @@
+/* MainPage.css */
+.main-container {
+    padding: 20px;
+  }
+  
+  .product-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centers the cards in the middle of the page */
+    margin-top: 20px;
+  }
+  
+  .product-col {
+    flex: 0 0 auto;
+    margin: 10px; /* Adds spacing between cards */
+    width: calc(25% - 20px); /* Four cards per row with spacing */
+  }
+  
+  .product-card {
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  }
+  
+  .product-img {
+    height: 180px; /* Fixed height for uniformity */
+    object-fit: cover; /* Ensures the image covers the area without distorting */
+  }
+  
+  .product-title {
+    font-size: 1.2rem; /* Larger title font */
+    margin-top: 5px;
+    color: #333; /* Dark grey color for text */
+  }
+  
+  .product-text {
+    color: #666; /* Lighter text color for descriptions */
+  }
+  
+  .btn-primary {
+    margin-top: 10px; /* Spacing above the button */
+  }
+  
+  @media (max-width: 768px) {
+    .product-col {
+      width: calc(50% - 20px); /* Two cards per row on smaller screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .product-col {
+      width: 100%; /* Single column layout on very small screens */
+    }
+  }
+  
