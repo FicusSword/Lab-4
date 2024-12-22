@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Документы\\ООП\\lb\\WebApplication21\\WebApplication21.csproj": {}
+    "E:\\Документы\\Polytech\\Backend\\Lab-4\\бек для авторизации\\WebApplication21\\WebApplication21.csproj": {}
   },
   "projects": {
-    "E:\\Документы\\ООП\\lb\\WebApplication21\\WebApplication21.csproj": {
+    "E:\\Документы\\Polytech\\Backend\\Lab-4\\бек для авторизации\\WebApplication21\\WebApplication21.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Документы\\ООП\\lb\\WebApplication21\\WebApplication21.csproj",
+        "projectUniqueName": "E:\\Документы\\Polytech\\Backend\\Lab-4\\бек для авторизации\\WebApplication21\\WebApplication21.csproj",
         "projectName": "WebApplication21",
-        "projectPath": "E:\\Документы\\ООП\\lb\\WebApplication21\\WebApplication21.csproj",
+        "projectPath": "E:\\Документы\\Polytech\\Backend\\Lab-4\\бек для авторизации\\WebApplication21\\WebApplication21.csproj",
         "packagesPath": "C:\\Users\\Sasha\\.nuget\\packages\\",
-        "outputPath": "E:\\Документы\\ООП\\lb\\WebApplication21\\obj\\",
+        "outputPath": "E:\\Документы\\Polytech\\Backend\\Lab-4\\бек для авторизации\\WebApplication21\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Sasha\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "E:\\Loadings\\Brouser": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -45,6 +46,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.11, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.3, )"
@@ -52,6 +57,14 @@
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.3, )"
+            },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.IdentityModel.JsonWebTokens": {
+              "target": "Package",
+              "version": "[8.3.0, )"
             }
           },
           "imports": [

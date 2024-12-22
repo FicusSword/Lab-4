@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection.Emit;
+
 public class ApplicationContext : DbContext
 {
     public DbSet<Client> Clients { get; set; } = null!;
+
     public ApplicationContext(DbContextOptions<ApplicationContext> options)
-    : base(options)
+        : base(options)
     {
-        Database.EnsureCreated(); 
+        // Для работы с миграциями используйте Database.Migrate(), если хотите автоматически применить миграции
+        Database.Migrate();
     }
 }

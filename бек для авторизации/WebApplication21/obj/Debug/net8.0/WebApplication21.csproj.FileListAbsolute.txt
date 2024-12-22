@@ -210,3 +210,15 @@ E:\Документы\ООП\lb\WebApplication21\obj\Debug\net8.0\refint\WebAppl
 E:\Документы\ООП\lb\WebApplication21\obj\Debug\net8.0\WebApplication21.pdb
 E:\Документы\ООП\lb\WebApplication21\obj\Debug\net8.0\WebApplication21.genruntimeconfig.cache
 E:\Документы\ООП\lb\WebApplication21\obj\Debug\net8.0\ref\WebApplication21.dll
+E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\WebApplication21.csproj.AssemblyReference.cache
+E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\WebApplication21.GeneratedMSBuildEditorConfig.editorconfig
+E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\WebApplication21.AssemblyInfoInputs.cache
+E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\WebApplication21.AssemblyInfo.cs
+E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\WebApplication21.csproj.CoreCompileInputs.cache
+E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\WebApplication21.MvcApplicationPartsAssemblyInfo.cache
+E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\WebApplication21.RazorAssemblyInfo.cache
+E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\WebApplication21.RazorAssemblyInfo.cs
+E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\WebApplication21.sourcelink.json
+E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\WebApplication21.dll
+E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\refint\WebApplication21.dll
+E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\WebApplication21.pdb

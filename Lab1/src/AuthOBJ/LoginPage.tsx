@@ -2,7 +2,7 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import axios from "axios";
 import { useState } from "react";
 
-export function LoginPage(){
+export function LoginPage() {
     const [, setLoggedIn] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -21,7 +21,7 @@ export function LoginPage(){
         axios.get('https://localhost:7039/api/clients')
         .then(response => {
             const clients = response.data;
-            const client = clients.find((c: { name: string; age: number; }) => c.name === username && c.age.toString() === password);
+            const client = clients.find((c: { name: string; age: number }) => c.name === username && c.age.toString() === password);
 
             if (client) {
                 setLoggedIn(true);
@@ -35,13 +35,13 @@ export function LoginPage(){
                 setAccessToken(token);
                 window.location.href = "/home"; 
             } else {
-                setError('incorrect username or password');
+                setError('Incorrect username or password');
                 setUsername('');
                 setPassword('');
             }
         })
         .catch(() => {
-            setError('error fetching data');
+            setError('Error fetching data');
             setUsername('');
             setPassword('');
         });
@@ -60,7 +60,7 @@ export function LoginPage(){
         return 'asdadfcsacoasp[dko[aclpawkl1223dasdawe23';
     };
 
-    return(
+    return (
         <div>
             <Container className="mt-5">
                 <Row className="justify-content-center">
@@ -69,19 +69,20 @@ export function LoginPage(){
                         <Form>
                             <Form.Group controlId="formBasicUsername">
                                 <Form.Label>Username</Form.Label>
-                                <Form.Control type="text" placeholder="write username" value={username} onChange={handleUsernameChange} />
+                                <Form.Control type="text" placeholder="Write username" value={username} onChange={handleUsernameChange} />
                             </Form.Group>
 
                             <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="write password" value={password} onChange={handlePasswordChange} />
+                                <Form.Control type="password" placeholder="Write password" value={password} onChange={handlePasswordChange} />
                             </Form.Group>
 
                             <Button variant="primary" type="button" onClick={handleLogin}>
                                 Login
                             </Button>
-                            <Button variant="primary" type="button" href="/register">
-                                Reg
+                            {/* Кнопка для регистрации */}
+                            <Button variant="secondary" type="button" href="/register" className="ml-3">
+                                Register
                             </Button>
                         </Form>
                     </Col>

@@ -34,6 +34,8 @@ export function AdminPanel() {
   const [error, setError] = useState<string>('');
   const [products, setProducts] = useState<Product[]>([]);
   const [newProduct, setNewProduct] = useState<Product>({ id: 0, title: '', description: '', image: '' });
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isImageFromUrl, setIsImageFromUrl] = useState<boolean>(false);
 
   useEffect(() => {
     const storedProducts = localStorage.getItem('products');
@@ -58,12 +60,27 @@ export function AdminPanel() {
     setNewProduct(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setImagePreview(imageUrl);
+      setNewProduct(prev => ({ ...prev, image: imageUrl }));
+    }
+  };
+
+  const handleImageUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImagePreview(e.target.value);
+    setNewProduct(prev => ({ ...prev, image: e.target.value }));
+  };
+
   const addProduct = () => {
     if (newProduct.title && newProduct.description && newProduct.image) {
       const newId = products.length + 1;
       const updatedProducts = [...products, { ...newProduct, id: newId }];
       setProducts(updatedProducts);
       setNewProduct({ id: 0, title: '', description: '', image: '' });
+      setImagePreview(null);
       localStorage.setItem('products', JSON.stringify(updatedProducts));
     } else {
       alert("Please fill in all fields");
@@ -78,16 +95,74 @@ export function AdminPanel() {
 
   if (isLoggedIn) {
     return (
-      <div className="admin-panel">
+      <div className="admin-panel container mt-4">
         <h1 className="mb-4">Admin Panel</h1>
         <p>Welcome, <strong>{username}</strong>!</p>
         <p>Your access token is: <code>{token}</code></p>
 
         <div className="product-form mb-5">
           <h2>Add New Product</h2>
-          <input type="text" placeholder="Title" value={newProduct.title} onChange={(e) => handleProductChange('title', e.target.value)} className="form-control mb-2" />
-          <input type="text" placeholder="Description" value={newProduct.description} onChange={(e) => handleProductChange('description', e.target.value)} className="form-control mb-2" />
-          <input type="text" placeholder="Image URL" value={newProduct.image} onChange={(e) => handleProductChange('image', e.target.value)} className="form-control mb-2" />
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Title"
+              value={newProduct.title}
+              onChange={(e) => handleProductChange('title', e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Description"
+              value={newProduct.description}
+              onChange={(e) => handleProductChange('description', e.target.value)}
+            />
+          </div>
+          
+          <div className="mb-3">
+            <label className="form-check-label">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={!isImageFromUrl}
+                onChange={() => setIsImageFromUrl(false)}
+              />
+              Upload Image from File
+            </label>
+            <label className="form-check-label ms-3">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={isImageFromUrl}
+                onChange={() => setIsImageFromUrl(true)}
+              />
+              Use Image URL
+            </label>
+          </div>
+
+          {isImageFromUrl ? (
+            <div className="mb-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Image URL"
+                value={newProduct.image}
+                onChange={handleImageUrlChange}
+              />
+            </div>
+          ) : (
+            <div className="mb-3">
+              <input
+                type="file"
+                className="form-control"
+                onChange={handleImageChange}
+              />
+              {imagePreview && <img src={imagePreview} alt="Preview" className="mt-2" style={{ width: '100px', height: '100px' }} />}
+            </div>
+          )}
+
           <button onClick={addProduct} className="btn btn-primary">Add Product</button>
         </div>
 
@@ -107,12 +182,28 @@ export function AdminPanel() {
   }
 
   return (
-    <div className="login-form">
+    <div className="login-form container mt-4">
       <h1>Login to Admin Panel</h1>
-      <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="form-control mb-2" />
-      <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control mb-2" />
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+      </div>
+      <div className="mb-3">
+        <input
+          type="password"
+          className="form-control"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
       <button onClick={handleLogin} className="btn btn-success">Login</button>
-      {error && <p className="text-danger">{error}</p>}
+      {error && <p className="text-danger mt-3">{error}</p>}
     </div>
   );
 }
