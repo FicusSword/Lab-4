@@ -1,37 +1,134 @@
+/* AdminPanel.css */
 .admin-panel {
-    padding: 20px;
-    max-width: 600px;
-    margin: auto;
-  }
-  
-  .product-form, .product-list {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  }
-  
-  .product-item {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .form-control {
-    margin-bottom: 10px;
-  }
-  
-  .mb-2 {
-    margin-bottom: 16px;
-  }
-  
-  .mb-4 {
-    margin-bottom: 32px;
-  }
-  
-  .mb-5 {
-    margin-bottom: 40px;
-  }
-  
+  padding: 30px;
+  max-width: 1100px;  /* Increased width for the admin panel */
+  margin: auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.product-form, .product-list {
+  background-color: #fafafa;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.product-form h2, .product-list h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.product-list .product-item {
+  display: flex;
+  justify-content: space-between; /* Ensures buttons are aligned properly */
+  align-items: flex-start;
+  margin-bottom: 20px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.product-card img {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+  margin-right: 20px;
+  border-radius: 8px;
+}
+
+.product-info {
+  flex-grow: 1;
+}
+
+.product-info h3 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.product-info p {
+  font-size: 1rem;
+  color: #777;
+  margin-top: 10px;
+  min-height: 50px;
+}
+
+.delete-btn, .edit-btn {
+  margin-left: 10px; /* Reduced margin to ensure buttons fit */
+  padding: 8px 15px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+.edit-btn {
+  background-color: #f39c12;
+  border: none;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #e67e22;
+}
+
+.product-form .form-control {
+  margin-bottom: 15px;
+}
+
+/* Настроим textarea для описания */
+textarea.form-control {
+  resize: vertical;
+}
+
+/* Добавляем отступ для выравнивания кнопок вправо */
+.product-form .form-check-label {
+  display: inline-block;
+  margin-right: 25px; /* Увеличим отступ между кнопками */
+}
+
+.product-form .form-check-input {
+  margin-right: 5px;
+}
+
+.product-form .form-check {
+  margin-left: auto; /* Это перемещает блок с кнопками вправо */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Выравнивание по правому краю */
+}
+
+.product-form .form-check-label {
+  margin-left: 25px; /* Для выравнивания между кнопками */
+}
+
+.product-details-inline {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.product-details-inline span {
+  white-space: nowrap;
+}
+

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, ListGroup, ListGroupItem, Card, Container, Row, Col } from 'react-bootstrap';
-import './Cart.css'; // Make sure the path is correct
+import './Cart.css'; 
+import Cookies from "js-cookie";
 
 interface Product {
   id: number;
@@ -12,7 +13,7 @@ interface Product {
 export function Cart() {
     const [, setAuthenticated] = useState(false);
     useEffect(() => {
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = Cookies.get('accessToken');
         if (accessToken) {
             setAuthenticated(true);
         } else {

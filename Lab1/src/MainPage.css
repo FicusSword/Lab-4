@@ -1,60 +1,68 @@
 /* MainPage.css */
-.main-container {
-    padding: 20px;
-  }
-  
-  .product-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Centers the cards in the middle of the page */
-    margin-top: 20px;
-  }
-  
-  .product-col {
-    flex: 0 0 auto;
-    margin: 10px; /* Adds spacing between cards */
-    width: calc(25% - 20px); /* Four cards per row with spacing */
-  }
-  
+
+/* Карточка товара */
+.product-card {
+  height: 450px; /* Фиксированная высота для всех карточек */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень для глубины */
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.product-card:hover {
+  transform: translateY(-5px); /* Подъем при наведении */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Изображение товара */
+.product-img {
+  width: 100%; /* Изображение занимает всю ширину карточки */
+  height: 200px; /* Фиксированная высота изображения */
+  object-fit: cover; /* Изображение будет обрезаться для сохранения пропорций */
+}
+
+/* Заголовок товара */
+.product-title {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  color: #333;
+  height: 50px; /* Ограничение высоты заголовка */
+  overflow: hidden; /* Предотвращение переполнения */
+}
+
+/* Описание товара */
+.product-text {
+  font-size: 1rem;
+  color: #666;
+  height: 60px; /* Ограничение высоты описания */
+  overflow: hidden; /* Предотвращение переполнения */
+}
+
+/* Кнопка */
+.btn-primary {
+  margin-top: 10px;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
   .product-card {
-    width: 100%;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    height: 420px; /* Уменьшение высоты для маленьких экранов */
   }
-  
-  .product-card:hover {
-    transform: translateY(-5px); /* Slight lift on hover */
-    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-  }
-  
+
   .product-img {
-    height: 180px; /* Fixed height for uniformity */
-    object-fit: cover; /* Ensures the image covers the area without distorting */
+    height: 180px; /* Уменьшение высоты изображения */
   }
-  
-  .product-title {
-    font-size: 1.2rem; /* Larger title font */
-    margin-top: 5px;
-    color: #333; /* Dark grey color for text */
+}
+
+@media (max-width: 480px) {
+  .product-card {
+    height: 400px; /* Ещё меньше для самых маленьких экранов */
   }
-  
-  .product-text {
-    color: #666; /* Lighter text color for descriptions */
+
+  .product-img {
+    height: 160px; /* Уменьшение изображения */
   }
-  
-  .btn-primary {
-    margin-top: 10px; /* Spacing above the button */
-  }
-  
-  @media (max-width: 768px) {
-    .product-col {
-      width: calc(50% - 20px); /* Two cards per row on smaller screens */
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .product-col {
-      width: 100%; /* Single column layout on very small screens */
-    }
-  }
-  
+}

@@ -26,7 +26,7 @@ export function Task(){
     return(
         <div>
             <Card>
-      <Card.Header as="h5">workout</Card.Header>
+      <Card.Header as="h5">Tun</Card.Header>
       <Card.Body>
         <Card.Title>Push-ups</Card.Title>
         <Card.Text>

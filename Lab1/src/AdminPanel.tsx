@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './AdminPanel.css';  // Assuming you have a CSS file for additional styles
+import './AdminPanel.css';
 
 interface User {
   username: string;
@@ -16,12 +16,15 @@ interface Product {
   title: string;
   description: string;
   image: string;
+  engine: string;
+  horsepower: string;
+  torque: string;
 }
 
 const users: UserDictionary = {
   "admin": {
     "username": "admin",
-    "password": "admin123",
+    "password": "123",
     "token": "adminTokenXYZ"
   }
 };
@@ -33,7 +36,16 @@ export function AdminPanel() {
   const [token, setToken] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [products, setProducts] = useState<Product[]>([]);
-  const [newProduct, setNewProduct] = useState<Product>({ id: 0, title: '', description: '', image: '' });
+  const [newProduct, setNewProduct] = useState<Product>({
+    id: 0,
+    title: '',
+    description: '',
+    image: '',
+    engine: '',
+    horsepower: '',
+    torque: ''
+  });
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isImageFromUrl, setIsImageFromUrl] = useState<boolean>(false);
 
@@ -57,29 +69,63 @@ export function AdminPanel() {
   };
 
   const handleProductChange = (field: keyof Product, value: string) => {
-    setNewProduct(prev => ({ ...prev, [field]: value }));
+    if (editingProduct) {
+      setEditingProduct(prev => ({
+        ...prev!,
+        [field]: value
+      }));
+    } else {
+      setNewProduct(prev => ({
+        ...prev,
+        [field]: value
+      }));
+    }
   };
-
+  
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setImagePreview(imageUrl);
-      setNewProduct(prev => ({ ...prev, image: imageUrl }));
+      if (editingProduct) {
+        setEditingProduct(prev => ({
+          ...prev!,
+          image: imageUrl
+        }));
+      } else {
+        setNewProduct(prev => ({
+          ...prev,
+          image: imageUrl
+        }));
+      }
     }
   };
-
+  
   const handleImageUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setImagePreview(e.target.value);
-    setNewProduct(prev => ({ ...prev, image: e.target.value }));
+    const imageUrl = e.target.value;
+    setImagePreview(imageUrl);
+    if (editingProduct) {
+      setEditingProduct(prev => ({
+        ...prev!,
+        image: imageUrl
+      }));
+    } else {
+      setNewProduct(prev => ({
+        ...prev,
+        image: imageUrl
+      }));
+    }
   };
+  
 
   const addProduct = () => {
     if (newProduct.title && newProduct.description && newProduct.image) {
       const newId = products.length + 1;
       const updatedProducts = [...products, { ...newProduct, id: newId }];
       setProducts(updatedProducts);
-      setNewProduct({ id: 0, title: '', description: '', image: '' });
+      setNewProduct({
+        id: 0, title: '', description: '', image: '', engine: '', horsepower: '', torque: ''
+      });
       setImagePreview(null);
       localStorage.setItem('products', JSON.stringify(updatedProducts));
     } else {
@@ -87,10 +133,26 @@ export function AdminPanel() {
     }
   };
 
+  const updateProduct = () => {
+    if (editingProduct) {
+      const updatedProducts = products.map(product =>
+        product.id === editingProduct.id ? editingProduct : product
+      );
+      setProducts(updatedProducts);
+      setEditingProduct(null);
+      localStorage.setItem('products', JSON.stringify(updatedProducts));
+    }
+  };
+
   const deleteProduct = (id: number) => {
     const updatedProducts = products.filter(product => product.id !== id);
     setProducts(updatedProducts);
     localStorage.setItem('products', JSON.stringify(updatedProducts));
+  };
+
+  const handleEdit = (product: Product) => {
+    setEditingProduct(product);
+    setImagePreview(product.image);
   };
 
   if (isLoggedIn) {
@@ -101,26 +163,53 @@ export function AdminPanel() {
         <p>Your access token is: <code>{token}</code></p>
 
         <div className="product-form mb-5">
-          <h2>Add New Product</h2>
+          <h2>{editingProduct ? 'Edit Product' : 'Add New Product'}</h2>
           <div className="mb-3">
             <input
               type="text"
               className="form-control"
               placeholder="Title"
-              value={newProduct.title}
+              value={editingProduct ? editingProduct.title : newProduct.title}
               onChange={(e) => handleProductChange('title', e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <textarea
+              className="form-control"
+              placeholder="Description"
+              rows={4}
+              value={editingProduct ? editingProduct.description : newProduct.description}
+              onChange={(e) => handleProductChange('description', e.target.value)}
             />
           </div>
           <div className="mb-3">
             <input
               type="text"
               className="form-control"
-              placeholder="Description"
-              value={newProduct.description}
-              onChange={(e) => handleProductChange('description', e.target.value)}
+              placeholder="Engine"
+              value={editingProduct ? editingProduct.engine : newProduct.engine}
+              onChange={(e) => handleProductChange('engine', e.target.value)}
             />
           </div>
-          
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Horsepower"
+              value={editingProduct ? editingProduct.horsepower : newProduct.horsepower}
+              onChange={(e) => handleProductChange('horsepower', e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Torque"
+              value={editingProduct ? editingProduct.torque : newProduct.torque}
+              onChange={(e) => handleProductChange('torque', e.target.value)}
+            />
+          </div>
+
           <div className="mb-3">
             <label className="form-check-label">
               <input
@@ -148,7 +237,7 @@ export function AdminPanel() {
                 type="text"
                 className="form-control"
                 placeholder="Image URL"
-                value={newProduct.image}
+                value={editingProduct ? editingProduct.image : newProduct.image}
                 onChange={handleImageUrlChange}
               />
             </div>
@@ -159,24 +248,37 @@ export function AdminPanel() {
                 className="form-control"
                 onChange={handleImageChange}
               />
-              {imagePreview && <img src={imagePreview} alt="Preview" className="mt-2" style={{ width: '100px', height: '100px' }} />}
+              {imagePreview && <img src={imagePreview} alt="Preview" className="mt-2" style={{ width: '150px', height: '150px' }} />}
             </div>
           )}
 
-          <button onClick={addProduct} className="btn btn-primary">Add Product</button>
+          <button onClick={editingProduct ? updateProduct : addProduct} className="btn btn-primary">
+            {editingProduct ? 'Update Product' : 'Add Product'}
+          </button>
         </div>
 
         <div className="product-list">
-          <h2>Product List</h2>
-          {products.map(product => (
-            <div key={product.id} className="product-item mb-3">
-              <h3>{product.title}</h3>
-              <p>{product.description}</p>
-              <img src={product.image} alt={product.title} style={{ width: '100px', height: '100px' }} className="mr-3" />
-              <button onClick={() => deleteProduct(product.id)} className="btn btn-danger">Delete</button>
+        <h2>Product List</h2>
+        {products.map(product => (
+          <div key={product.id} className="product-item mb-3">
+            <div className="product-card">
+              <img src={product.image} alt={product.title} />
+              <div className="product-info">
+                <h3>{product.title}</h3>
+                <p>{product.description}</p>
+                <div className="product-details-inline">
+                <span><strong>Engine:</strong> {product.engine}</span>
+                <span><strong>Horsepower:</strong> {product.horsepower}</span>
+                <span><strong>Torque:</strong> {product.torque}</span>
+              </div>
+              </div>
+              <button onClick={() => handleEdit(product)} className="btn btn-warning">Edit</button>
+              <button onClick={() => deleteProduct(product.id)} className="btn btn-danger delete-btn">Delete</button>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>
+
       </div>
     );
   }
