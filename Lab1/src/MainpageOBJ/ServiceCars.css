@@ -1,8 +1,5 @@
-/* ServiceCard.css */
-
-/* Стили для карточки */
 .product-card {
-    height: 450px; /* Фиксированная высота для карточек */
+    height: 450px; 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -17,53 +14,48 @@
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
   }
   
-  /* Изображение товара */
   .product-img {
     width: 100%;
-    height: 200px; /* Фиксированная высота изображения */
-    object-fit: cover; /* Обрезка изображения для сохранения пропорций */
+    height: 200px;
+    object-fit: cover; 
   }
   
-  /* Заголовок товара */
   .product-title {
     font-size: 1.2rem;
     margin-top: 10px;
     color: #333;
-    height: 50px; /* Ограничиваем высоту для заголовка */
+    height: 50px; 
     overflow: hidden;
   }
-  
-  /* Описание товара */
+
   .product-text {
     font-size: 1rem;
     color: #666;
-    height: 60px; /* Ограничиваем высоту для описания */
+    height: 60px; 
     overflow: hidden;
   }
-  
-  /* Кнопка */
+
   .btn-primary {
     margin-top: 10px;
   }
-  
-  /* Адаптивность */
+
   @media (max-width: 768px) {
     .product-card {
-      height: 420px; /* Уменьшаем высоту карточек на маленьких экранах */
+      height: 420px; 
     }
   
     .product-img {
-      height: 180px; /* Уменьшаем высоту изображения */
+      height: 180px; 
     }
   }
   
   @media (max-width: 480px) {
     .product-card {
-      height: 400px; /* Ещё меньше на очень маленьких экранах */
+      height: 400px; 
     }
   
     .product-img {
-      height: 160px; /* Уменьшаем изображение */
+      height: 160px; 
     }
   }
   

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Col, Container, Form, Row, Card } from "react-bootstrap";
 import axios from "axios";
 import { useState } from "react";
-import bgImage from './bg_image.jpg'; // Импорт изображения из папки src
+import bgImage from './bg_image.jpg';
 
 export function RegisterPage() {
     const [username, setUsername] = useState('');

@@ -18,84 +18,32 @@ export function LoginPage() {
         setPassword(event.target.value);
     };
 
-    const generateSignature = async (input: string) => {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(input);
-        const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-        return btoa(String.fromCharCode(...new Uint8Array(hashBuffer)))
-            .replace(/=/g, "")
-            .replace(/\+/g, "-")
-            .replace(/\//g, "_");
-    };
-
-    const generateToken = async (payload: object) => {
-        const header = { alg: "HS256", typ: "JWT" };
-        const base64Encode = (obj: object) =>
-            btoa(JSON.stringify(obj)).replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
-
-        const headerEncoded = base64Encode(header);
-        const payloadEncoded = base64Encode({
-            ...payload,
-            exp: Date.now() + 3600000,
-            iat: Date.now(),
-        });
-
-        const signature = await generateSignature(headerEncoded + "." + payloadEncoded);
-        return `${headerEncoded}.${payloadEncoded}.${signature}`;
-    };
-
-    const validateToken = (token: string) => {
-        if (!token) return false;
-
-        const [header, payload, signature] = token.split(".");
-        if (!header || !payload || !signature) return false;
-
-        try {
-            const payloadDecoded = JSON.parse(atob(payload));
-            if (Date.now() > payloadDecoded.exp) {
-                console.error("Token has expired");
-                return false;
-            }
-            return true;
-        } catch (err) {
-            console.error("Invalid token format");
-            return false;
-        }
-    };
-
     const handleLogin = async () => {
         console.log("Attempting login...");
         try {
-            const response = await axios.get("https://localhost:7039/api/clients");
+            const response = await axios.post("https://localhost:7039/api/auth/login", {
+                name: username,
+                age: password
+            });
+
             console.log("API response:", response.data);
 
-            const clients = response.data;
-            const client = clients.find(
-                (c: { name: string; age: number }) =>
-                    c.name === username && c.age.toString() === password
-            );
-
-            if (client) {
+            if (response.status === 200) {
                 console.log("Login successful!");
                 setLoggedIn(true);
                 setUsername("");
                 setPassword("");
                 setError("");
 
-                const token = await generateToken({ name: username });
                 
+                const token = response.data.token;
                 Cookies.set("accessToken", token, { expires: 1, secure: true, sameSite: "Strict" });
 
                 window.location.href = "/home";
-            } else {
-                console.log("Invalid credentials");
-                setError("Incorrect username or password");
-                setUsername("");
-                setPassword("");
             }
         } catch (err) {
-            console.error("Error fetching data:", err);
-            setError("Error fetching data");
+            console.error("Login failed:", err);
+            setError("Incorrect username or password");
             setUsername("");
             setPassword("");
         }
@@ -112,12 +60,8 @@ export function LoginPage() {
 
     useEffect(() => {
         const token = Cookies.get("accessToken");
-        if (token && !validateToken(token)) {
-            console.log("Token is invalid or expired, logging out...");
-            handleLogout();
-        } else if (token) {
-            setLoggedIn(true);
-        }
+        if (!token) handleLogout();
+        else setLoggedIn(true);
     }, []);
 
     return (

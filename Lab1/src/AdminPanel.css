@@ -95,15 +95,13 @@
   margin-bottom: 15px;
 }
 
-/* Настроим textarea для описания */
 textarea.form-control {
   resize: vertical;
 }
 
-/* Добавляем отступ для выравнивания кнопок вправо */
 .product-form .form-check-label {
   display: inline-block;
-  margin-right: 25px; /* Увеличим отступ между кнопками */
+  margin-right: 25px;
 }
 
 .product-form .form-check-input {
@@ -111,14 +109,14 @@ textarea.form-control {
 }
 
 .product-form .form-check {
-  margin-left: auto; /* Это перемещает блок с кнопками вправо */
+  margin-left: auto;
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* Выравнивание по правому краю */
+  justify-content: flex-end;
 }
 
 .product-form .form-check-label {
-  margin-left: 25px; /* Для выравнивания между кнопками */
+  margin-left: 25px;
 }
 
 .product-details-inline {

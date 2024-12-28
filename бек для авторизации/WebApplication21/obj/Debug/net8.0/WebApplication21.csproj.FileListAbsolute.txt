@@ -293,3 +293,4 @@ E:\Документы\Polytech\Backend\Lab-4\бек для авторизаци�
 E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\staticwebassets\msbuild.WebApplication21.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
 E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+E:\Документы\Polytech\Backend\Lab-4\бек для авторизации\WebApplication21\bin\Debug\net8.0\BCrypt.Net-Next.dll

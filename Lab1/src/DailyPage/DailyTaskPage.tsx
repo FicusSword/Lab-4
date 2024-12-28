@@ -4,17 +4,16 @@ import { useEffect, useState } from "react";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import { Card } from "react-bootstrap";
-
+import Cookies from "js-cookie";
 
 export function Task(){
     const [, setAuthenticated] = useState(false);
     useEffect(() => {
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = Cookies.get('accessToken');
         if (accessToken) {
             setAuthenticated(true);
-
         } else {
-            window.location.href = "/"; 
+            window.location.href = "/";
         }
     }, []);
     const dispatch = useAppDispatch();
@@ -28,41 +27,41 @@ export function Task(){
             <Card>
       <Card.Header as="h5">Tun</Card.Header>
       <Card.Body>
-        <Card.Title>Push-ups</Card.Title>
+        <Card.Title>branded turbochargers</Card.Title>
         <Card.Text>
-        {a} = - {a * 3} calories
+        {a} part of car = {a * 2000} $
         </Card.Text>
         <ButtonGroup disableElevation variant="contained" aria-label="Disabled button group">
                 <Button onClick={() => dispatch(increment())}>Plus</Button>
                 <Button onClick={() => dispatch(decrement())}>Minus</Button>
             </ButtonGroup>
-            <Card.Title>Squats</Card.Title>
+            <Card.Title>engine cover</Card.Title>
         <Card.Text>
-        {b} = - {b * 3} calories
+        {b} part of car =  {b * 500} $
         </Card.Text>
         <ButtonGroup disableElevation variant="contained" aria-label="Disabled button group">
                 <Button onClick={() => dispatch(increment2())}>Plus</Button>
                 <Button onClick={() => dispatch(decrement2())}>Minus</Button>
             </ButtonGroup>
-            <Card.Title>Planks</Card.Title>
+            <Card.Title>branded wheels</Card.Title>
         <Card.Text>
-        {c} = - {c * 4} calories
+        {c} part of car =  {c * 1000} $
         </Card.Text>
         <ButtonGroup disableElevation variant="contained" aria-label="Disabled button group">
                 <Button onClick={() => dispatch(increment3())}>Plus</Button>
                 <Button onClick={() => dispatch(decrement3())}>Minus</Button>
             </ButtonGroup>
-            <Card.Title>Crunches</Card.Title>
+            <Card.Title>carbon sports steering wheel</Card.Title>
         <Card.Text>
-        {d} = - {d * 5} calories
+        {d} part of car =  {d * 1500} $
         </Card.Text>
         <ButtonGroup disableElevation variant="contained" aria-label="Disabled button group">
                 <Button onClick={() => dispatch(increment4())}>Plus</Button>
                 <Button onClick={() => dispatch(decrement4())}>Minus</Button>
             </ButtonGroup>       
-            <Card.Title>Running or Walking</Card.Title>
+            <Card.Title>hood with additional ventilation</Card.Title>
         <Card.Text>
-        {e} kilometers= if running - {e * 80} calories if walking - {e * 55} calories
+        {e} part of car = {e * 2000} 
         </Card.Text>
         <ButtonGroup disableElevation variant="contained" aria-label="Disabled button group">
                 <Button onClick={() => dispatch(increment5())}>Plus</Button>

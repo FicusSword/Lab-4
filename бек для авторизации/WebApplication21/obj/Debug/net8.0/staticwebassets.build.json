@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "nO+LR+SMVH1M6g9lLpbuJy0sY96SgFvxpB+waoDlR7A=",
+  "Hash": "HJNWKL55B2MdMvLfdGKJm2t1WVZqJMmDgeF2vtfIxtg=",
   "Source": "WebApplication21",
   "BasePath": "_content/WebApplication21",
   "Mode": "Default",
@@ -1528,7 +1528,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 19 Nov 2024 12:43:27 GMT"
+          "Value": "Fri, 27 Dec 2024 19:42:22 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1573,7 +1573,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 19 Nov 2024 12:43:27 GMT"
+          "Value": "Fri, 27 Dec 2024 19:42:22 GMT"
         },
         {
           "Name": "Cache-Control",

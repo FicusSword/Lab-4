@@ -49,12 +49,23 @@ export function AdminPanel() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isImageFromUrl, setIsImageFromUrl] = useState<boolean>(false);
 
+  // Загружаем данные продуктов при первом рендере
   useEffect(() => {
-    const storedProducts = localStorage.getItem('products');
-    if (storedProducts) {
-      setProducts(JSON.parse(storedProducts));
-    }
+    fetchProducts();
   }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('https://localhost:7039/api/products');
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+      const productsData = await response.json();
+      setProducts(productsData);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
 
   const handleLogin = () => {
     const user = users[username];
@@ -116,41 +127,83 @@ export function AdminPanel() {
       }));
     }
   };
-  
 
-  const addProduct = () => {
+  // Добавление нового продукта
+  const addProduct = async () => {
     if (newProduct.title && newProduct.description && newProduct.image) {
-      const newId = products.length + 1;
-      const updatedProducts = [...products, { ...newProduct, id: newId }];
-      setProducts(updatedProducts);
-      setNewProduct({
-        id: 0, title: '', description: '', image: '', engine: '', horsepower: '', torque: ''
-      });
-      setImagePreview(null);
-      localStorage.setItem('products', JSON.stringify(updatedProducts));
+      try {
+        const response = await fetch('https://localhost:7039/api/products', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newProduct),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to add product');
+        }
+
+        // После успешного добавления, перезагружаем список продуктов
+        fetchProducts();
+
+        setNewProduct({
+          id: 0, title: '', description: '', image: '', engine: '', horsepower: '', torque: ''
+        });
+        setImagePreview(null);
+      } catch (error) {
+        console.error('Error adding product:', error);
+      }
     } else {
       alert("Please fill in all fields");
     }
   };
-
-  const updateProduct = () => {
+  
+  // Обновление существующего продукта
+  const updateProduct = async () => {
     if (editingProduct) {
-      const updatedProducts = products.map(product =>
-        product.id === editingProduct.id ? editingProduct : product
-      );
-      setProducts(updatedProducts);
-      setEditingProduct(null);
-      localStorage.setItem('products', JSON.stringify(updatedProducts));
+      try {
+        const response = await fetch(`https://localhost:7039/api/products/${editingProduct.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(editingProduct),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to update product');
+        }
+
+        // После успешного обновления, перезагружаем список продуктов
+        fetchProducts();
+        setEditingProduct(null);
+      } catch (error) {
+        console.error('Error updating product:', error);
+      }
     }
   };
 
-  const deleteProduct = (id: number) => {
-    const updatedProducts = products.filter(product => product.id !== id);
-    setProducts(updatedProducts);
-    localStorage.setItem('products', JSON.stringify(updatedProducts));
+  // Удаление продукта
+  const deleteProduct = async (id: number) => {
+    try {
+      const response = await fetch(`https://localhost:7039/api/products/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete product');
+      }
+
+      // После успешного удаления, перезагружаем список продуктов
+      fetchProducts();
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
   };
 
-  const handleEdit = (product: Product) => {
+  // Редактирование продукта
+  const handleEdit = async (product: Product) => {
     setEditingProduct(product);
     setImagePreview(product.image);
   };
@@ -258,26 +311,26 @@ export function AdminPanel() {
         </div>
 
         <div className="product-list">
-        <h2>Product List</h2>
-        {products.map(product => (
-          <div key={product.id} className="product-item mb-3">
-            <div className="product-card">
-              <img src={product.image} alt={product.title} />
-              <div className="product-info">
-                <h3>{product.title}</h3>
-                <p>{product.description}</p>
-                <div className="product-details-inline">
-                <span><strong>Engine:</strong> {product.engine}</span>
-                <span><strong>Horsepower:</strong> {product.horsepower}</span>
-                <span><strong>Torque:</strong> {product.torque}</span>
+          <h2>Product List</h2>
+          {products.map(product => (
+            <div key={product.id} className="product-item mb-3">
+              <div className="product-card">
+                <img src={product.image} alt={product.title} />
+                <div className="product-info">
+                  <h3>{product.title}</h3>
+                  <p>{product.description}</p>
+                  <div className="product-details-inline">
+                    <span><strong>Engine:</strong> {product.engine}</span>
+                    <span><strong>Horsepower:</strong> {product.horsepower}</span>
+                    <span><strong>Torque:</strong> {product.torque}</span>
+                  </div>
+                </div>
+                <button onClick={() => handleEdit(product)} className="btn btn-warning">Edit</button>
+                <button onClick={() => deleteProduct(product.id)} className="btn btn-danger delete-btn">Delete</button>
               </div>
-              </div>
-              <button onClick={() => handleEdit(product)} className="btn btn-warning">Edit</button>
-              <button onClick={() => deleteProduct(product.id)} className="btn btn-danger delete-btn">Delete</button>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
       </div>
     );
@@ -304,7 +357,7 @@ export function AdminPanel() {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <button onClick={handleLogin} className="btn btn-success">Login</button>
+      <button onClick={handleLogin} className="btn btn-primary">Login</button>
       {error && <p className="text-danger mt-3">{error}</p>}
     </div>
   );

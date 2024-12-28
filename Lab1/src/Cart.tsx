@@ -64,6 +64,7 @@ export function Cart() {
             ) : (
                 <p className="cart-empty">Your cart is empty.</p>
             )}
+            <Button variant="primary" href="/Assisten" className="cart-clear-button" style={{ background: '#007bff', border: 'none', padding: '15px 30px', fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', transition: 'background 0.3s ease' }}>Submit a request to the manager</Button>
             <Button variant="warning" onClick={clearCart} className="cart-clear-button" style={{ display: cartItems.length ? 'block' : 'none' }}>
                 Clear Cart
             </Button>

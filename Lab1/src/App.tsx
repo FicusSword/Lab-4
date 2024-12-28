@@ -11,7 +11,7 @@ import { Cart } from './Cart';
 import { PageTwo } from './Page2';
 import { RegisterPage } from './AuthOBJ/RegisterPage';
 import { AdminPanel } from './AdminPanel';
-
+import { Assisten } from './Assisten';
 
 
 const App: React.FC = () => {
@@ -31,6 +31,7 @@ const App: React.FC = () => {
         <Route path="/page2" element={<PageTwo/>}/>
         <Route path="/Task" element={<Task/>}/>
         <Route path="/Cart" element={<Cart/>}/>
+        <Route path="/Assisten" element={<Assisten/>}/>
         <Route path="/Admin" element={<AdminPanel/>}/>
         <Route path="/product/:productId" element={<Page/>} />
       </Routes>

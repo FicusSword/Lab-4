@@ -22,25 +22,42 @@ export function Page() {
   useEffect(() => {
     const accessToken = Cookies.get('accessToken');
     if (accessToken) {
-        setAuthenticated(true);
+      setAuthenticated(true);
     } else {
-        window.location.href = "/";
+      window.location.href = "/";
     }
 
-    const products = JSON.parse(localStorage.getItem('products') || '[]');
-    const foundProduct = products.find((p: Product) => p.id.toString() === productId);
-    setProduct(foundProduct);
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(`https://localhost:7039/api/products/${productId}`); 
+        if (!response.ok) {
+          throw new Error('Failed to fetch product');
+        }
+
+        const fetchedProduct = await response.json();
+        setProduct(fetchedProduct);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      }
+    };
+
+    fetchProduct(); 
   }, [productId]);
 
-  const addToCart = () => {
+  const addToCart = async () => {
     if (!product) return;
 
-    let cart = localStorage.getItem('cart');
-    const cartItems: Product[] = cart ? JSON.parse(cart) : [];
-    cartItems.push(product);
-    localStorage.setItem('cart', JSON.stringify(cartItems));
+    try {
+      let cart = localStorage.getItem('cart');
+      const cartItems: Product[] = cart ? JSON.parse(cart) : [];
+      cartItems.push(product);
+      localStorage.setItem('cart', JSON.stringify(cartItems));
 
-    setShowModal(true);
+      setShowModal(true);
+
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
   };
 
   if (!product) return <p>Product not found...</p>;
@@ -89,7 +106,7 @@ export function Page() {
                 <Card className="mb-4" style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
                   <Card.Body>
                     <Card.Title>Engine</Card.Title>
-                    <Card.Text>{product.engine}</Card.Text> {/* Dynamically rendered engine */}
+                    <Card.Text>{product.engine}</Card.Text> {}
                   </Card.Body>
                 </Card>
               </Col>
@@ -97,7 +114,7 @@ export function Page() {
                 <Card className="mb-4" style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
                   <Card.Body>
                     <Card.Title>Horsepower</Card.Title>
-                    <Card.Text>{product.horsepower}</Card.Text> {/* Dynamically rendered horsepower */}
+                    <Card.Text>{product.horsepower}</Card.Text> {}
                   </Card.Body>
                 </Card>
               </Col>
@@ -105,7 +122,7 @@ export function Page() {
                 <Card className="mb-4" style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
                   <Card.Body>
                     <Card.Title>Torque</Card.Title>
-                    <Card.Text>{product.torque}</Card.Text> {/* Dynamically rendered torque */}
+                    <Card.Text>{product.torque}</Card.Text> {}
                   </Card.Body>
                 </Card>
               </Col>

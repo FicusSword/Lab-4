@@ -18,14 +18,26 @@ export function MainPage() {
   useEffect(() => {
     const accessToken = Cookies.get('accessToken');
     if (accessToken) {
-        setAuthenticated(true);
+      setAuthenticated(true);
     } else {
-        window.location.href = "/";
+      window.location.href = "/";
     }
-    const storedProducts = localStorage.getItem("products");
-    if (storedProducts) {
-      setProducts(JSON.parse(storedProducts));
-    }
+
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("https://localhost:7039/api/products"); 
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+
+        const fetchedProducts = await response.json();
+        setProducts(fetchedProducts); 
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts(); 
   }, []);
 
   const goToProductPage = (productId: number) => {
