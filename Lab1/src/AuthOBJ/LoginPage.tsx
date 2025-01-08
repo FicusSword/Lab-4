@@ -21,33 +21,43 @@ export function LoginPage() {
     const handleLogin = async () => {
         console.log("Attempting login...");
         try {
-            const response = await axios.post("https://localhost:7039/api/auth/login", {
-                name: username,
-                age: password
-            });
-
+            const response = await axios.post(
+                "https://localhost:7039/api/auth/login", 
+                {
+                    name: username,
+                    age: password
+                },
+                {
+                    withCredentials: true,
+                }
+            );
+    
             console.log("API response:", response.data);
-
+    
             if (response.status === 200) {
                 console.log("Login successful!");
                 setLoggedIn(true);
                 setUsername("");
                 setPassword("");
                 setError("");
-
-                
-                const token = response.data.token;
-                Cookies.set("accessToken", token, { expires: 1, secure: true, sameSite: "Strict" });
-
+    
                 window.location.href = "/home";
             }
         } catch (err) {
             console.error("Login failed:", err);
-            setError("Incorrect username or password");
+    
+            if (axios.isAxiosError(err) && err.response && err.response.data) {
+                setError(err.response.data.message || "An error occurred.");
+            } else {
+                setError("An unexpected error occurred. Please try again.");
+            }
+    
             setUsername("");
             setPassword("");
         }
     };
+    
+    
 
     const handleLogout = () => {
         setLoggedIn(false);

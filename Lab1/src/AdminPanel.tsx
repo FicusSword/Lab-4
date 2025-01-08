@@ -49,7 +49,6 @@ export function AdminPanel() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isImageFromUrl, setIsImageFromUrl] = useState<boolean>(false);
 
-  // Загружаем данные продуктов при первом рендере
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -128,7 +127,6 @@ export function AdminPanel() {
     }
   };
 
-  // Добавление нового продукта
   const addProduct = async () => {
     if (newProduct.title && newProduct.description && newProduct.image) {
       try {
@@ -144,7 +142,6 @@ export function AdminPanel() {
           throw new Error('Failed to add product');
         }
 
-        // После успешного добавления, перезагружаем список продуктов
         fetchProducts();
 
         setNewProduct({
@@ -158,8 +155,7 @@ export function AdminPanel() {
       alert("Please fill in all fields");
     }
   };
-  
-  // Обновление существующего продукта
+
   const updateProduct = async () => {
     if (editingProduct) {
       try {
@@ -175,7 +171,6 @@ export function AdminPanel() {
           throw new Error('Failed to update product');
         }
 
-        // После успешного обновления, перезагружаем список продуктов
         fetchProducts();
         setEditingProduct(null);
       } catch (error) {
@@ -184,7 +179,7 @@ export function AdminPanel() {
     }
   };
 
-  // Удаление продукта
+
   const deleteProduct = async (id: number) => {
     try {
       const response = await fetch(`https://localhost:7039/api/products/${id}`, {
@@ -195,14 +190,13 @@ export function AdminPanel() {
         throw new Error('Failed to delete product');
       }
 
-      // После успешного удаления, перезагружаем список продуктов
-      fetchProducts();
+      
     } catch (error) {
       console.error('Error deleting product:', error);
     }
   };
 
-  // Редактирование продукта
+
   const handleEdit = async (product: Product) => {
     setEditingProduct(product);
     setImagePreview(product.image);

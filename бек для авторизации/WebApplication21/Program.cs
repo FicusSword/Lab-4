@@ -3,6 +3,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder();
@@ -12,9 +14,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy(MyAllowSpecificOrigins,
                           policy =>
                           {
-                              policy.WithOrigins("http://localhost:5173") 
+                              policy.WithOrigins("http://localhost:5173")
                                     .AllowAnyHeader()
-                                    .AllowAnyMethod();
+                                    .AllowAnyMethod()
+                                    .AllowCredentials();
                           });
 });
 
@@ -33,13 +36,13 @@ builder.Services.AddAuthentication("Bearer")
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "yourdomain.com",
-            ValidAudience = "yourdomain.com",
+            ValidIssuer = "mydomain.com",
+            ValidAudience = "mydomain.com",
             IssuerSigningKey = new SymmetricSecurityKey(key)
         };
     });
 
-builder.Services.AddAuthorization(); 
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -47,8 +50,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseCors(MyAllowSpecificOrigins);
-app.UseAuthentication();  
-app.UseAuthorization();  
+app.UseAuthentication();
+app.UseAuthorization();
 
 string GenerateJwtToken(int clientId, string name)
 {
@@ -63,25 +66,90 @@ string GenerateJwtToken(int clientId, string name)
         issuer: "mydomain.com",
         audience: "mydomain.com",
         claims: claims,
-        expires: DateTime.Now.AddMinutes(1),
+        expires: DateTime.UtcNow.AddMinutes(15),
         signingCredentials: credentials
     );
 
     return new JwtSecurityTokenHandler().WriteToken(token);
 }
 
-app.MapPost("/api/auth/login", async (Client loginData, ApplicationContext db) =>
+string GenerateRefreshToken()
 {
-    var client = await db.Clients.FirstOrDefaultAsync(c => c.Name == loginData.Name && c.Age.ToString() == loginData.Age.ToString());
+    var randomNumber = new byte[32];
+    using (var rng = RandomNumberGenerator.Create())
+    {
+        rng.GetBytes(randomNumber);
+    }
+    return Convert.ToBase64String(randomNumber);
+}
+
+app.MapPost("/api/auth/login", async (Client loginData, ApplicationContext db, HttpContext httpContext) =>
+{
+    try
+    {
+        var client = await db.Clients.FirstOrDefaultAsync(c => c.Name == loginData.Name && c.Age.ToString() == loginData.Age.ToString());
+
+        if (client == null)
+        {
+            return Results.Json(new { message = "Invalid username or password" }, statusCode: 401);
+        }
+
+        var accessToken = GenerateJwtToken(client.Id, client.Name);
+        var refreshToken = Guid.NewGuid().ToString();
+
+        client.RefreshToken = refreshToken;
+        await db.SaveChangesAsync();
+
+        httpContext.Response.Cookies.Append("accessToken", accessToken, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.None,
+            Expires = DateTime.UtcNow.AddMinutes(15)
+        });
+
+        return Results.Json(new { message = "Login successful", refreshToken });
+    }
+    catch (Exception ex)
+    {
+        // Логируем ошибку для детального анализа
+        return Results.Json(new { message = "Internal server error", details = ex.Message }, statusCode: 500);
+    }
+});
+
+
+app.MapPost("/api/auth/refresh", async (string refreshToken, ApplicationContext db, HttpContext httpContext) =>
+{
+    var client = await db.Clients.FirstOrDefaultAsync(c => c.RefreshToken == refreshToken);
 
     if (client == null)
     {
-        return Results.Json(new { message = "Invalid username or password" }, statusCode: 401);
+        return Results.Json(new { message = "Invalid refresh token" }, statusCode: 401);
     }
 
-    var token = GenerateJwtToken(client.Id, client.Name);
+    var newAccessToken = GenerateJwtToken(client.Id, client.Name);
+    var newRefreshToken = Guid.NewGuid().ToString();
 
-    return Results.Json(new { message = "Login successful", token });
+    client.RefreshToken = newRefreshToken;
+    await db.SaveChangesAsync();
+
+    httpContext.Response.Cookies.Append("accessToken", newAccessToken, new CookieOptions
+    {
+        HttpOnly = true,
+        Secure = true,
+        SameSite = SameSiteMode.Strict,
+        Expires = DateTime.UtcNow.Add(TimeSpan.FromMinutes(5))
+    });
+
+    return Results.Json(new { message = "Tokens refreshed", refreshToken = newRefreshToken });
+});
+
+app.MapGet("/api/check-token", (HttpContext httpContext) =>
+{
+    var token = httpContext.Request.Cookies["accessToken"];
+    return token != null
+        ? Results.Json(new { token })
+        : Results.Json(new { message = "Token not found" }, statusCode: 401);
 });
 
 app.MapGet("/api/clients", async (ApplicationContext db) =>
@@ -116,6 +184,16 @@ app.MapPost("/api/clients", async (Client client, ApplicationContext db) =>
     await db.SaveChangesAsync();
     return client;
 });
+
+//app.MapPost("/api/clients", async (Client client, ApplicationContext db) =>
+//{
+ //   // Хеширование пароля с использованием bcrypt
+ //   client.PasswordHash = BCrypt.Net.BCrypt.HashPassword(client.Age);
+ //   await db.Clients.AddAsync(client);
+ //   await db.SaveChangesAsync();
+  //  return client;
+//});
+
 
 app.MapPut("/api/clients", async (Client clientData, ApplicationContext db) =>
 {

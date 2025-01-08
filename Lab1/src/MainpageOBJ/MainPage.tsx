@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 interface Product {
   id: number;
@@ -12,32 +13,38 @@ interface Product {
 
 export function MainPage() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [, setAuthenticated] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const accessToken = Cookies.get('accessToken');
-    if (accessToken) {
-      setAuthenticated(true);
-    } else {
-      window.location.href = "/";
-    }
-
-    const fetchProducts = async () => {
+    const validateToken = async () => {
       try {
-        const response = await fetch("https://localhost:7039/api/products"); 
-        if (!response.ok) {
-          throw new Error('Failed to fetch products');
-        }
-
-        const fetchedProducts = await response.json();
-        setProducts(fetchedProducts); 
+        const response = await axios.get("https://localhost:7039/api/check-token", {
+          withCredentials: true,
+        });
+        console.log("Token is valid:", response.data);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error("Token validation failed:", error);
+        window.location.href = "/";
       }
     };
 
-    fetchProducts(); 
+    validateToken();
+
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("https://localhost:7039/api/products");
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+
+        const fetchedProducts = await response.json();
+        setProducts(fetchedProducts);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   const goToProductPage = (productId: number) => {

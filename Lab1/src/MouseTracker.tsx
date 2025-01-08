@@ -22,9 +22,9 @@ const MouseTracker: React.FC = () => {
     <div
       style={{
         position: 'absolute',
-        backgroundColor: 'pink',
+        backgroundColor: 'green',
         borderRadius: '50%',
-        opacity: 0.6,
+        opacity: 0.5,
         pointerEvents: 'none',
         width: 40,
         height: 40,
