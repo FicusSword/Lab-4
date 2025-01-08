@@ -53,6 +53,7 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Генерация токена
 string GenerateJwtToken(int clientId, string name)
 {
     var claims = new[]
@@ -66,83 +67,54 @@ string GenerateJwtToken(int clientId, string name)
         issuer: "mydomain.com",
         audience: "mydomain.com",
         claims: claims,
-        expires: DateTime.UtcNow.AddMinutes(15),
+        expires: DateTime.UtcNow.AddMinutes(5),
         signingCredentials: credentials
     );
 
     return new JwtSecurityTokenHandler().WriteToken(token);
 }
 
-string GenerateRefreshToken()
-{
-    var randomNumber = new byte[32];
-    using (var rng = RandomNumberGenerator.Create())
-    {
-        rng.GetBytes(randomNumber);
-    }
-    return Convert.ToBase64String(randomNumber);
-}
-
 app.MapPost("/api/auth/login", async (Client loginData, ApplicationContext db, HttpContext httpContext) =>
 {
     try
     {
-        var client = await db.Clients.FirstOrDefaultAsync(c => c.Name == loginData.Name && c.Age.ToString() == loginData.Age.ToString());
+        var client = await db.Clients.FirstOrDefaultAsync(c => c.Name == loginData.Name);
 
-        if (client == null)
+        if (client == null || !BCrypt.Net.BCrypt.Verify(loginData.Age.ToString(), client.Age))
         {
             return Results.Json(new { message = "Invalid username or password" }, statusCode: 401);
         }
 
         var accessToken = GenerateJwtToken(client.Id, client.Name);
-        var refreshToken = Guid.NewGuid().ToString();
 
+        var refreshToken = Guid.NewGuid().ToString();
         client.RefreshToken = refreshToken;
         await db.SaveChangesAsync();
+
+        httpContext.Response.Cookies.Append("refreshToken", refreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.None,
+            Expires = DateTime.UtcNow.AddDays(1) 
+        });
 
         httpContext.Response.Cookies.Append("accessToken", accessToken, new CookieOptions
         {
             HttpOnly = true,
             Secure = true,
             SameSite = SameSiteMode.None,
-            Expires = DateTime.UtcNow.AddMinutes(15)
+            Expires = DateTime.UtcNow.AddMinutes(5)
         });
 
-        return Results.Json(new { message = "Login successful", refreshToken });
+        return Results.Json(new { message = "Login successful"});
     }
     catch (Exception ex)
     {
-        // Логируем ошибку для детального анализа
         return Results.Json(new { message = "Internal server error", details = ex.Message }, statusCode: 500);
     }
 });
 
-
-app.MapPost("/api/auth/refresh", async (string refreshToken, ApplicationContext db, HttpContext httpContext) =>
-{
-    var client = await db.Clients.FirstOrDefaultAsync(c => c.RefreshToken == refreshToken);
-
-    if (client == null)
-    {
-        return Results.Json(new { message = "Invalid refresh token" }, statusCode: 401);
-    }
-
-    var newAccessToken = GenerateJwtToken(client.Id, client.Name);
-    var newRefreshToken = Guid.NewGuid().ToString();
-
-    client.RefreshToken = newRefreshToken;
-    await db.SaveChangesAsync();
-
-    httpContext.Response.Cookies.Append("accessToken", newAccessToken, new CookieOptions
-    {
-        HttpOnly = true,
-        Secure = true,
-        SameSite = SameSiteMode.Strict,
-        Expires = DateTime.UtcNow.Add(TimeSpan.FromMinutes(5))
-    });
-
-    return Results.Json(new { message = "Tokens refreshed", refreshToken = newRefreshToken });
-});
 
 app.MapGet("/api/check-token", (HttpContext httpContext) =>
 {
@@ -151,6 +123,53 @@ app.MapGet("/api/check-token", (HttpContext httpContext) =>
         ? Results.Json(new { token })
         : Results.Json(new { message = "Token not found" }, statusCode: 401);
 });
+
+app.MapPost("/api/auth/refresh", async (HttpContext httpContext, ApplicationContext db) =>
+{
+        try
+        {
+            var refreshToken = httpContext.Request.Cookies["refreshToken"];
+            if (refreshToken == null)
+            {
+                return Results.Json(new { message = "Refresh token not found" }, statusCode: 401);
+            }
+
+            var client = await db.Clients.FirstOrDefaultAsync(c => c.RefreshToken == refreshToken);
+            if (client == null)
+            {
+                return Results.Json(new { message = "Invalid refresh token" }, statusCode: 401);
+            }
+
+            var newAccessToken = GenerateJwtToken(client.Id, client.Name);
+
+            var newRefreshToken = Guid.NewGuid().ToString();
+            client.RefreshToken = newRefreshToken;
+            await db.SaveChangesAsync();
+
+            httpContext.Response.Cookies.Append("accessToken", newAccessToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddMinutes(5) 
+            });
+
+            httpContext.Response.Cookies.Append("refreshToken", newRefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(1)
+            });
+
+            return Results.Json(new { message = "Token refreshed" });
+        }
+        catch (Exception ex)
+        {
+            return Results.Json(new { message = "Internal server error", details = ex.Message }, statusCode: 500);
+        }
+});
+
 
 app.MapGet("/api/clients", async (ApplicationContext db) =>
 {
@@ -180,20 +199,13 @@ app.MapDelete("/api/clients/{id:int}", async (int id, ApplicationContext db) =>
 
 app.MapPost("/api/clients", async (Client client, ApplicationContext db) =>
 {
-    await db.Clients.AddAsync(client);
-    await db.SaveChangesAsync();
-    return client;
+
+   client.Age = BCrypt.Net.BCrypt.HashPassword(client.Age);
+
+   await db.Clients.AddAsync(client);
+   await db.SaveChangesAsync();
+   return client;
 });
-
-//app.MapPost("/api/clients", async (Client client, ApplicationContext db) =>
-//{
- //   // Хеширование пароля с использованием bcrypt
- //   client.PasswordHash = BCrypt.Net.BCrypt.HashPassword(client.Age);
- //   await db.Clients.AddAsync(client);
- //   await db.SaveChangesAsync();
-  //  return client;
-//});
-
 
 app.MapPut("/api/clients", async (Client clientData, ApplicationContext db) =>
 {

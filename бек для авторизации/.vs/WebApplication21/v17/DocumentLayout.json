@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "E:\\\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\Polytech\\Backend\\Lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D7C3D149-FFF7-47C0-9D8D-C4DC3CE6A5D2}|WebApplication21\\WebApplication21.csproj|e:\\\u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\polytech\\backend\\lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\webapplication21\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D7C3D149-FFF7-47C0-9D8D-C4DC3CE6A5D2}|WebApplication21\\WebApplication21.csproj|solutionrelative:webapplication21\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D7C3D149-FFF7-47C0-9D8D-C4DC3CE6A5D2}|WebApplication21\\WebApplication21.csproj|e:\\\u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\polytech\\backend\\lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\webapplication21\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D7C3D149-FFF7-47C0-9D8D-C4DC3CE6A5D2}|WebApplication21\\WebApplication21.csproj|solutionrelative:webapplication21\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D7C3D149-FFF7-47C0-9D8D-C4DC3CE6A5D2}|WebApplication21\\WebApplication21.csproj|e:\\\u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\polytech\\backend\\lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\webapplication21\\applicationcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D7C3D149-FFF7-47C0-9D8D-C4DC3CE6A5D2}|WebApplication21\\WebApplication21.csproj|solutionrelative:webapplication21\\applicationcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D7C3D149-FFF7-47C0-9D8D-C4DC3CE6A5D2}|WebApplication21\\WebApplication21.csproj|e:\\\u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\polytech\\backend\\lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\webapplication21\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -21,6 +13,23 @@
     {
       "AbsoluteMoniker": "D:0:0:{D7C3D149-FFF7-47C0-9D8D-C4DC3CE6A5D2}|WebApplication21\\WebApplication21.csproj|e:\\\u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\polytech\\backend\\lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\webapplication21\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D7C3D149-FFF7-47C0-9D8D-C4DC3CE6A5D2}|WebApplication21\\WebApplication21.csproj|solutionrelative:webapplication21\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sasha\\AppData\\Local\\Temp\\m4e1gecz..sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7C3D149-FFF7-47C0-9D8D-C4DC3CE6A5D2}|WebApplication21\\WebApplication21.csproj|e:\\\u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\polytech\\backend\\lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\webapplication21\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7C3D149-FFF7-47C0-9D8D-C4DC3CE6A5D2}|WebApplication21\\WebApplication21.csproj|solutionrelative:webapplication21\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7C3D149-FFF7-47C0-9D8D-C4DC3CE6A5D2}|WebApplication21\\WebApplication21.csproj|e:\\\u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\polytech\\backend\\lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\webapplication21\\applicationcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7C3D149-FFF7-47C0-9D8D-C4DC3CE6A5D2}|WebApplication21\\WebApplication21.csproj|solutionrelative:webapplication21\\applicationcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sasha\\AppData\\Local\\Temp\\m4e1gecz..sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sasha\\AppData\\Local\\Temp\\m4e1gecz..sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|ResultFrame"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,11 +39,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "SQLQuery1.sql ",
+              "DocumentMoniker": "C:\\Users\\Sasha\\AppData\\Local\\Temp\\m4e1gecz..sql",
+              "ToolTip": "SQLQuery1.sql *",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-01-08T11:42:24.691Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "appsettings.json",
               "DocumentMoniker": "E:\\\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\Polytech\\Backend\\Lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\WebApplication21\\appsettings.json",
               "RelativeDocumentMoniker": "WebApplication21\\appsettings.json",
@@ -42,11 +61,12 @@
               "RelativeToolTip": "WebApplication21\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-12-27T20:28:35.45Z"
+              "WhenOpened": "2024-12-27T20:28:35.45Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "Product.cs",
               "DocumentMoniker": "E:\\\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\Polytech\\Backend\\Lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\WebApplication21\\Product.cs",
               "RelativeDocumentMoniker": "WebApplication21\\Product.cs",
@@ -54,11 +74,12 @@
               "RelativeToolTip": "WebApplication21\\Product.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-27T22:36:28.049Z"
+              "WhenOpened": "2024-12-27T22:36:28.049Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Client.cs",
               "DocumentMoniker": "E:\\\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\Polytech\\Backend\\Lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\WebApplication21\\Client.cs",
               "RelativeDocumentMoniker": "WebApplication21\\Client.cs",
@@ -71,7 +92,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "ApplicationContext.cs",
               "DocumentMoniker": "E:\\\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\Polytech\\Backend\\Lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\WebApplication21\\ApplicationContext.cs",
               "RelativeDocumentMoniker": "WebApplication21\\ApplicationContext.cs",
@@ -79,17 +100,18 @@
               "RelativeToolTip": "WebApplication21\\ApplicationContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-08T23:49:40.132Z"
+              "WhenOpened": "2024-12-08T23:49:40.132Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "E:\\\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\Polytech\\Backend\\Lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\WebApplication21\\Program.cs",
               "RelativeDocumentMoniker": "WebApplication21\\Program.cs",
               "ToolTip": "E:\\\u0414\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B\\Polytech\\Backend\\Lab-4\\\u0431\u0435\u043A \u0434\u043B\u044F \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438\\WebApplication21\\Program.cs",
               "RelativeToolTip": "WebApplication21\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAAEoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-19T12:47:42.553Z",
               "EditorCaption": ""

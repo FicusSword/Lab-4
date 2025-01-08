@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Card, Row, Col, Container, Modal } from 'react-bootstrap';
 import Cookies from "js-cookie";
+import axios from "axios";
 
 interface Product {
   id: number;
@@ -20,12 +21,46 @@ export function Page() {
   const [, setAuthenticated] = useState(false);
 
   useEffect(() => {
-    const accessToken = Cookies.get('accessToken');
-    if (accessToken) {
-      setAuthenticated(true);
-    } else {
-      window.location.href = "/";
-    }
+    const validateToken = async () => {
+      try {
+
+        const response = await axios.get("https://localhost:7039/api/check-token", {
+          withCredentials: true,
+        });
+        console.log("Token is valid:", response.data);
+      } catch (error: unknown) { 
+        if (error instanceof Error) {
+          console.error("Error message:", error.message);
+        } else {
+          console.error("An unknown error occurred");
+        }
+
+        if (axios.isAxiosError(error) && error.response?.status === 401) {
+          try {
+            console.log("Attempting to refresh token...");
+
+            const refreshResponse = await axios.post("https://localhost:7039/api/auth/refresh", {}, {
+              withCredentials: true, 
+            });
+
+            console.log("Token refreshed:", refreshResponse.data);
+
+          } catch (refreshError: unknown) {
+            if (refreshError instanceof Error) {
+              console.error("Token refresh failed:", refreshError.message);
+            } else {
+              console.error("An unknown error occurred while refreshing token");
+            }
+
+            window.location.href = "/";
+          }
+        } else {
+          window.location.href = "/";
+        }
+      }
+    };
+
+    validateToken();
 
     const fetchProduct = async () => {
       try {
