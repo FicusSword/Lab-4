@@ -20,6 +20,9 @@ const NavbarComponent: React.FC<NavbarProps> = () => {
             <Nav.Link href="/Cart" >
               <ShoppingCartIcon />
             </Nav.Link>
+            <Nav.Link href="/" >
+              Login
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

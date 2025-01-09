@@ -74,6 +74,7 @@ string GenerateJwtToken(int clientId, string name)
     return new JwtSecurityTokenHandler().WriteToken(token);
 }
 
+// Авторизация
 app.MapPost("/api/auth/login", async (Client loginData, ApplicationContext db, HttpContext httpContext) =>
 {
     try
@@ -86,7 +87,7 @@ app.MapPost("/api/auth/login", async (Client loginData, ApplicationContext db, H
         }
 
         var accessToken = GenerateJwtToken(client.Id, client.Name);
-
+        // Генерация рефреш токена
         var refreshToken = Guid.NewGuid().ToString();
         client.RefreshToken = refreshToken;
         await db.SaveChangesAsync();
@@ -115,7 +116,24 @@ app.MapPost("/api/auth/login", async (Client loginData, ApplicationContext db, H
     }
 });
 
+// Удаления куки файлов
+app.MapPost("/api/auth/logout", (HttpContext httpContext) =>
+{
+    try
+    {
+        httpContext.Response.Cookies.Delete("accessToken");
+        httpContext.Response.Cookies.Delete("refreshToken");
 
+        return Results.Json(new { message = "Logout successful" });
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { message = "Internal server error", details = ex.Message }, statusCode: 500);
+    }
+});
+
+
+// Проверка токена на валидность
 app.MapGet("/api/check-token", (HttpContext httpContext) =>
 {
     var token = httpContext.Request.Cookies["accessToken"];
@@ -124,6 +142,7 @@ app.MapGet("/api/check-token", (HttpContext httpContext) =>
         : Results.Json(new { message = "Token not found" }, statusCode: 401);
 });
 
+// Проверка на наличие рефрешь токена для продления сессии
 app.MapPost("/api/auth/refresh", async (HttpContext httpContext, ApplicationContext db) =>
 {
         try
@@ -170,7 +189,7 @@ app.MapPost("/api/auth/refresh", async (HttpContext httpContext, ApplicationCont
         }
 });
 
-
+// таблица с логинами и паролями 
 app.MapGet("/api/clients", async (ApplicationContext db) =>
 {
     var clients = await db.Clients.ToListAsync();
@@ -219,6 +238,7 @@ app.MapPut("/api/clients", async (Client clientData, ApplicationContext db) =>
     return Results.Json(client);
 });
 
+// таблица с продукцией сайта
 app.MapGet("/api/products", async (ApplicationContext db) =>
 {
     var products = await db.Products.ToListAsync();

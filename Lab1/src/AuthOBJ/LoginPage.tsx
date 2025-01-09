@@ -59,14 +59,21 @@ export function LoginPage() {
     
     
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        console.log("Logout...");
+            
+        await axios.post("http://localhost:7039/api/auth/logout", {}, {
+            withCredentials: true,
+        });
+
         setLoggedIn(false);
         setUsername("");
         setPassword("");
         setError("");
-        Cookies.remove("accessToken");
         console.log("Logged out");
+
     };
+    
 
     useEffect(() => {
         const token = Cookies.get("accessToken");
