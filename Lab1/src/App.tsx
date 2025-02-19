@@ -12,6 +12,7 @@ import { PageTwo } from './Page2';
 import { RegisterPage } from './AuthOBJ/RegisterPage';
 import { AdminPanel } from './AdminPanel';
 import { Assisten } from './Assisten';
+import { TaskManager } from './L2/TaskManager';
 
 
 const App: React.FC = () => {
@@ -34,6 +35,7 @@ const App: React.FC = () => {
         <Route path="/Assisten" element={<Assisten/>}/>
         <Route path="/Admin" element={<AdminPanel/>}/>
         <Route path="/product/:productId" element={<Page/>} />
+        <Route path="/tasks" element={<TaskManager />} />
       </Routes>
     </>
     </BrowserRouter>

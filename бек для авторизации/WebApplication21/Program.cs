@@ -289,4 +289,64 @@ app.MapDelete("/api/products/{id:int}", async (int id, ApplicationContext db) =>
     return Results.Json(product);
 });
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Добавление нового отзыва
+app.MapPost("/api/reviews", [Authorize] async (Review review, HttpContext httpContext, ApplicationContext db) =>
+{
+    // Извлекаем userName из токена, используя Claims
+    var userName = httpContext.User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+    if (string.IsNullOrEmpty(userName))
+    {
+        return Results.Unauthorized(); // Если пользователь не авторизован
+    }
+
+    // Проверка на дублирование отзыва
+    var existingReview = await db.Reviews
+        .FirstOrDefaultAsync(r => r.ProductId == review.ProductId && r.UserName == userName);
+
+    if (existingReview != null)
+    {
+        return Results.BadRequest("You have already reviewed this product.");
+    }
+
+    // Присваиваем userName отзыву
+    review.UserName = userName;
+    review.CreatedAt = DateTime.UtcNow;
+
+    // Сохраняем отзыв в базе данных
+    await db.Reviews.AddAsync(review);
+    await db.SaveChangesAsync();
+
+    return Results.Json(review);
+});
+
+
+// Получение всех отзывов для продукта
+app.MapGet("/api/products/{id:int}/reviews", async (int id, ApplicationContext db) =>
+{
+    var reviews = await db.Reviews
+        .Where(r => r.ProductId == id)
+        .OrderByDescending(r => r.CreatedAt) // Сортировка от новых к старым
+        .ToListAsync();
+
+    return Results.Json(reviews);
+});
+
+
+// Получение среднего рейтинга для продукта
+app.MapGet("/api/products/{id:int}/rating", async (int id, ApplicationContext db) =>
+{
+    var averageRating = await db.Reviews
+        .Where(r => r.ProductId == id)
+        .AverageAsync(r => (double?)r.Rating) ?? 0;
+
+    return Results.Json(new { ProductId = id, AverageRating = averageRating });
+});
+
+
+
 app.Run();
