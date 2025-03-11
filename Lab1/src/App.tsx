@@ -13,6 +13,7 @@ import { RegisterPage } from './AuthOBJ/RegisterPage';
 import { AdminPanel } from './AdminPanel';
 import { Assisten } from './Assisten';
 import { TaskManager } from './L2/TaskManager';
+import Calculator from './L2/Calculator';
 
 
 const App: React.FC = () => {
@@ -36,6 +37,7 @@ const App: React.FC = () => {
         <Route path="/Admin" element={<AdminPanel/>}/>
         <Route path="/product/:productId" element={<Page/>} />
         <Route path="/tasks" element={<TaskManager />} />
+        <Route path="/calculator" element={<Calculator />} /> {/* Новый маршрут */}
       </Routes>
     </>
     </BrowserRouter>
