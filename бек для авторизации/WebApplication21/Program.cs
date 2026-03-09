@@ -23,7 +23,7 @@ builder.Services.AddCors(options =>
                           });
 });
 
-string connection = "Server=(localdb)\\mssqllocaldb;Database=applicationdb;Trusted_Connection=True;";
+string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
 
 var secretKey = builder.Configuration["Jwt:SecretKey"];
