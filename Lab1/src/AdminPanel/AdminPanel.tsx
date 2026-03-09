@@ -51,7 +51,7 @@ export function AdminPanel() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('https://localhost:7039/api/products');
+      const response = await fetch('https://ficussword.top/api/products');
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -126,7 +126,7 @@ export function AdminPanel() {
   const addProduct = async () => {
     if (newProduct.title && newProduct.description && newProduct.image) {
       try {
-        const response = await fetch('https://localhost:7039/api/products', {
+        const response = await fetch('https://ficussword.top/api/products', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ export function AdminPanel() {
   const updateProduct = async () => {
     if (editingProduct) {
       try {
-        const response = await fetch(`https://localhost:7039/api/products/${editingProduct.id}`, {
+        const response = await fetch(`https://ficussword.top/api/products/${editingProduct.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ export function AdminPanel() {
 
   const deleteProduct = async (id: number) => {
   try {
-    const response = await fetch(`https://localhost:7039/api/products/${id}`, {
+    const response = await fetch(`https://ficussword.top/api/products/${id}`, {
       method: 'DELETE',
     });
 

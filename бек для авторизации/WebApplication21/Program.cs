@@ -14,7 +14,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(MyAllowSpecificOrigins,
                           policy =>
                           {
-                              policy.WithOrigins("http://localhost:5173")
+                              policy.WithOrigins("http://localhost:5173",
+                                  "http://ficussword.top",
+                                  "https://ficussword.top")
                                     .AllowAnyHeader()
                                     .AllowAnyMethod()
                                     .AllowCredentials();
@@ -36,8 +38,8 @@ builder.Services.AddAuthentication("Bearer")
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "mydomain.com",
-            ValidAudience = "mydomain.com",
+            ValidIssuer = "ficussword.top",
+            ValidAudience = "ficussword.top",
             IssuerSigningKey = new SymmetricSecurityKey(key)
         };
     });
@@ -64,8 +66,8 @@ string GenerateJwtToken(int clientId, string name)
 
     var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
     var token = new JwtSecurityToken(
-        issuer: "mydomain.com",
-        audience: "mydomain.com",
+        issuer: "ficussword.top",
+        audience: "ficussword.top",
         claims: claims,
         expires: DateTime.UtcNow.AddMinutes(5),
         signingCredentials: credentials
@@ -74,6 +76,7 @@ string GenerateJwtToken(int clientId, string name)
     return new JwtSecurityTokenHandler().WriteToken(token);
 }
 
+// Авторизация
 // Авторизация
 app.MapPost("/api/auth/login", async (Client loginData, ApplicationContext db, HttpContext httpContext) =>
 {
@@ -87,28 +90,33 @@ app.MapPost("/api/auth/login", async (Client loginData, ApplicationContext db, H
         }
 
         var accessToken = GenerateJwtToken(client.Id, client.Name);
-        // Генерация рефреш токена
         var refreshToken = Guid.NewGuid().ToString();
         client.RefreshToken = refreshToken;
         await db.SaveChangesAsync();
 
-        httpContext.Response.Cookies.Append("refreshToken", refreshToken, new CookieOptions
+        // Общие настройки для всех cookies
+        var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
             Secure = true,
-            SameSite = SameSiteMode.None,
-            Expires = DateTime.UtcNow.AddDays(1) 
-        });
+            SameSite = SameSiteMode.Lax,  // Используем Lax для обоих
+            Domain = "ficussword.top",
+            Expires = DateTime.UtcNow.AddDays(1)
+        };
 
-        httpContext.Response.Cookies.Append("accessToken", accessToken, new CookieOptions
+        var accessCookieOptions = new CookieOptions
         {
             HttpOnly = true,
             Secure = true,
-            SameSite = SameSiteMode.None,
+            SameSite = SameSiteMode.Lax,  // Используем Lax для обоих
+            Domain = "ficussword.top",
             Expires = DateTime.UtcNow.AddMinutes(5)
-        });
+        };
 
-        return Results.Json(new { message = "Login successful"});
+        httpContext.Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
+        httpContext.Response.Cookies.Append("accessToken", accessToken, accessCookieOptions);
+
+        return Results.Json(new { message = "Login successful" });
     }
     catch (Exception ex)
     {
@@ -145,48 +153,53 @@ app.MapGet("/api/check-token", (HttpContext httpContext) =>
 // Проверка на наличие рефрешь токена для продления сессии
 app.MapPost("/api/auth/refresh", async (HttpContext httpContext, ApplicationContext db) =>
 {
-        try
+    try
+    {
+        var refreshToken = httpContext.Request.Cookies["refreshToken"];
+        if (refreshToken == null)
         {
-            var refreshToken = httpContext.Request.Cookies["refreshToken"];
-            if (refreshToken == null)
-            {
-                return Results.Json(new { message = "Refresh token not found" }, statusCode: 401);
-            }
-
-            var client = await db.Clients.FirstOrDefaultAsync(c => c.RefreshToken == refreshToken);
-            if (client == null)
-            {
-                return Results.Json(new { message = "Invalid refresh token" }, statusCode: 401);
-            }
-
-            var newAccessToken = GenerateJwtToken(client.Id, client.Name);
-
-            var newRefreshToken = Guid.NewGuid().ToString();
-            client.RefreshToken = newRefreshToken;
-            await db.SaveChangesAsync();
-
-            httpContext.Response.Cookies.Append("accessToken", newAccessToken, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddMinutes(5) 
-            });
-
-            httpContext.Response.Cookies.Append("refreshToken", newRefreshToken, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddDays(1)
-            });
-
-            return Results.Json(new { message = "Token refreshed" });
+            return Results.Json(new { message = "Refresh token not found" }, statusCode: 401);
         }
-        catch (Exception ex)
+
+        var client = await db.Clients.FirstOrDefaultAsync(c => c.RefreshToken == refreshToken);
+        if (client == null)
         {
-            return Results.Json(new { message = "Internal server error", details = ex.Message }, statusCode: 500);
+            return Results.Json(new { message = "Invalid refresh token" }, statusCode: 401);
         }
+
+        var newAccessToken = GenerateJwtToken(client.Id, client.Name);
+        var newRefreshToken = Guid.NewGuid().ToString();
+        client.RefreshToken = newRefreshToken;
+        await db.SaveChangesAsync();
+
+        // Используем те же настройки что и в login
+        var accessCookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Lax,
+            Domain = "ficussword.top",
+            Expires = DateTime.UtcNow.AddMinutes(5)
+        };
+
+        var refreshCookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Lax,
+            Domain = "ficussword.top",
+            Expires = DateTime.UtcNow.AddDays(1)
+        };
+
+        httpContext.Response.Cookies.Append("accessToken", newAccessToken, accessCookieOptions);
+        httpContext.Response.Cookies.Append("refreshToken", newRefreshToken, refreshCookieOptions);
+
+        return Results.Json(new { message = "Token refreshed" });
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { message = "Internal server error", details = ex.Message }, statusCode: 500);
+    }
 });
 
 // таблица с логинами и паролями 

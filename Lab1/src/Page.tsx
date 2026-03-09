@@ -24,7 +24,7 @@ export function Page() {
     const validateToken = async () => {
       try {
 
-        const response = await axios.get("https://localhost:7039/api/check-token", {
+        const response = await axios.get("https://ficussword.top/api/check-token", {
           withCredentials: true,
         });
         console.log("Token is valid:", response.data);
@@ -39,7 +39,7 @@ export function Page() {
           try {
             console.log("Attempting to refresh token...");
 
-            const refreshResponse = await axios.post("https://localhost:7039/api/auth/refresh", {}, {
+            const refreshResponse = await axios.post("https://ficussword.top/api/auth/refresh", {}, {
               withCredentials: true, 
             });
 
@@ -64,7 +64,7 @@ export function Page() {
 
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`https://localhost:7039/api/products/${productId}`); 
+        const response = await fetch(`https://ficussword.top/api/products/${productId}`); 
         if (!response.ok) {
           throw new Error('Failed to fetch product');
         }

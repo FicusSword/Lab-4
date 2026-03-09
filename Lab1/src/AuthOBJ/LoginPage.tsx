@@ -23,7 +23,7 @@ export function LoginPage() {
         console.log("Attempting login...");
         try {
             const response = await axios.post(
-                "https://localhost:7039/api/auth/login", 
+                "https://ficussword.top/api/auth/login", 
                 {
                     name: username,
                     age: password
@@ -63,7 +63,7 @@ export function LoginPage() {
     const handleLogout = async () => {
         console.log("Logout...");
             
-        await axios.post("http://localhost:7039/api/auth/logout", {}, {
+        await axios.post("http://ficussword.top/api/auth/logout", {}, {
             withCredentials: true,
         });
 
