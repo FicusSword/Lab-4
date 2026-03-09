@@ -1,3 +1,4 @@
+import './LoginPage.css'; 
 import { Button, Col, Container, Form, Row, Card } from "react-bootstrap";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -95,10 +96,10 @@ export function LoginPage() {
             <Container>
                 <Row className="justify-content-center">
                     <Col md={6}>
-                        <Card className="p-4 shadow" style={{ borderRadius: "15px", backgroundColor: "rgba(255, 255, 255, 0.9)" }}>
-                            <h2 className="mb-4 text-center" style={{ color: "#6e8efb" }}>Login</h2>
+                        <Card className="auth-card">
+                            <h2 className="mb-4 text-center" style={{ color: "hsla(298, 57%, 51%, 0.85)" }}>Login</h2>
                             <Form>
-                                <Form.Group controlId="formBasicUsername" className="mb-3">
+                                <Form.Group className="form-group">
                                     <Form.Label>Username</Form.Label>
                                     <Form.Control 
                                         type="text" 

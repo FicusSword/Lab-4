@@ -24,7 +24,7 @@ const MouseTracker: React.FC = () => {
         position: 'absolute',
         backgroundColor: 'green',
         borderRadius: '50%',
-        opacity: 0.5,
+        opacity: 0,
         pointerEvents: 'none',
         width: 40,
         height: 40,

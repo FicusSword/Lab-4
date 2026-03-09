@@ -60,8 +60,8 @@ export function RegisterPage() {
             <Container>
                 <Row className="justify-content-center">
                     <Col md={6}>
-                        <Card className="p-4 shadow" style={{ borderRadius: "15px", backgroundColor: "rgba(255, 255, 255, 0.9)" }}>
-                            <h2 className="mb-4 text-center" style={{ color: "#6e8efb" }}>Registration</h2>
+                        <Card className="auth-card">
+                            <h2 className="mb-4">Registration</h2>
                             {error && <div className="alert alert-danger">{error}</div>}
                             {success && <div className="alert alert-success">{success}</div>}
                             <Form>

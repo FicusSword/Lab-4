@@ -33,38 +33,36 @@ export function MainPage() {
     navigate(`/product/${productId}`);
   };
 
-  return (
-    <Container className="my-5">
-      <Row>
-        {products.map((product) => (
-          <Col key={product.id} md={4} className="mb-4">
-            <Card
-              className="product-card"
-              onClick={() => goToProductPage(product.id)}
-            >
-              <Card.Img
-                variant="top"
-                src={product.image}
-                alt={product.title}
-                className="product-img"
-              />
-              <Card.Body>
-                <Card.Title className="product-title">
-                  {product.title}
-                </Card.Title>
-                <Card.Text className="product-text">
-                  {product.description}
-                </Card.Text>
-                <Link to={`/product/${product.id}`}>
-                  <Button variant="primary" className="btn-primary">
-                    View Details
-                  </Button>
-                </Link>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </Container>
-  );
+return (
+  <Container className="my-5">
+    <Row>
+      {products.map((product) => (
+        <Col key={product.id} md={4} className="mb-4">
+          <Card
+            className="product-card"
+            onClick={() => goToProductPage(product.id)}
+            style={{ cursor: "pointer" }}
+          >
+            <Card.Img
+              src={product.image}
+              alt={product.title}
+              className="product-img"
+            />
+
+            <Card.Body>
+              <Card.Title className="product-title">
+                {product.title}
+              </Card.Title>
+
+              <Card.Text className="product-text">
+                {product.description}
+              </Card.Text>
+            </Card.Body>
+
+          </Card>
+        </Col>
+      ))}
+    </Row>
+  </Container>
+);
 }

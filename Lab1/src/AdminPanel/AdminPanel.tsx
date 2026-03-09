@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './AdminPanel.css';
+//import './AdminPanel.css';
 
 interface User {
   username: string;
@@ -17,8 +17,6 @@ interface Product {
   description: string;
   image: string;
   engine: string;
-  horsepower: string;
-  torque: string;
 }
 
 const users: UserDictionary = {
@@ -41,10 +39,8 @@ export function AdminPanel() {
     title: '',
     description: '',
     image: '',
-    engine: '',
-    horsepower: '',
-    torque: ''
-  });
+    engine: ''
+});
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isImageFromUrl, setIsImageFromUrl] = useState<boolean>(false);
@@ -145,8 +141,7 @@ export function AdminPanel() {
         fetchProducts();
 
         setNewProduct({
-          id: 0, title: '', description: '', image: '', engine: '', horsepower: '', torque: ''
-        });
+          id: 0, title: '', description: '', image: '', engine: ''});
         setImagePreview(null);
       } catch (error) {
         console.error('Error adding product:', error);
@@ -181,21 +176,22 @@ export function AdminPanel() {
 
 
   const deleteProduct = async (id: number) => {
-    try {
-      const response = await fetch(`https://localhost:7039/api/products/${id}`, {
-        method: 'DELETE',
-      });
+  try {
+    const response = await fetch(`https://localhost:7039/api/products/${id}`, {
+      method: 'DELETE',
+    });
 
-      if (!response.ok) {
-        throw new Error('Failed to delete product');
-      }
-
-      
-    } catch (error) {
-      console.error('Error deleting product:', error);
+    if (!response.ok) {
+      throw new Error('Failed to delete product');
     }
-  };
 
+    // удаляем из state сразу
+    setProducts(prev => prev.filter(product => product.id !== id));
+
+  } catch (error) {
+    console.error('Error deleting product:', error);
+  }
+};
 
   const handleEdit = async (product: Product) => {
     setEditingProduct(product);
@@ -215,7 +211,7 @@ export function AdminPanel() {
             <input
               type="text"
               className="form-control"
-              placeholder="Title"
+              placeholder="Name"
               value={editingProduct ? editingProduct.title : newProduct.title}
               onChange={(e) => handleProductChange('title', e.target.value)}
             />
@@ -233,27 +229,9 @@ export function AdminPanel() {
             <input
               type="text"
               className="form-control"
-              placeholder="Engine"
+              placeholder="Anime name"
               value={editingProduct ? editingProduct.engine : newProduct.engine}
               onChange={(e) => handleProductChange('engine', e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Horsepower"
-              value={editingProduct ? editingProduct.horsepower : newProduct.horsepower}
-              onChange={(e) => handleProductChange('horsepower', e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Torque"
-              value={editingProduct ? editingProduct.torque : newProduct.torque}
-              onChange={(e) => handleProductChange('torque', e.target.value)}
             />
           </div>
 
@@ -308,15 +286,13 @@ export function AdminPanel() {
           <h2>Product List</h2>
           {products.map(product => (
             <div key={product.id} className="product-item mb-3">
-              <div className="product-card">
+              <div className="admin-product-card">
                 <img src={product.image} alt={product.title} />
                 <div className="product-info">
                   <h3>{product.title}</h3>
                   <p>{product.description}</p>
                   <div className="product-details-inline">
-                    <span><strong>Engine:</strong> {product.engine}</span>
-                    <span><strong>Horsepower:</strong> {product.horsepower}</span>
-                    <span><strong>Torque:</strong> {product.torque}</span>
+                    <span><strong>Anime name:</strong> {product.engine}</span>
                   </div>
                 </div>
                 <button onClick={() => handleEdit(product)} className="btn btn-warning">Edit</button>

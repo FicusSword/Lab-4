@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "skpV2sk1gL4=",
+  "dgSpecHash": "gey5lVNiCyY=",
   "success": true,
-  "projectFilePath": "E:\\Документы\\Polytech\\Backend\\Lab-4\\бек для авторизации\\WebApplication21\\WebApplication21.csproj",
+  "projectFilePath": "G:\\University\\Test\\9l\\Lab-4\\бек для авторизации\\WebApplication21\\WebApplication21.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Sasha\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Sasha\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
