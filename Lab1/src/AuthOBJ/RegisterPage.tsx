@@ -29,7 +29,7 @@ export function RegisterPage() {
             return;
         }
 
-        axios.post('https://ficussword.top/api/clients', {
+        axios.post('/api/clients', {
             name: username,
             age: password
         })

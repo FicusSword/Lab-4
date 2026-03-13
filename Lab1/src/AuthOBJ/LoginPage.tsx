@@ -23,7 +23,7 @@ export function LoginPage() {
         console.log("Attempting login...");
         try {
             const response = await axios.post(
-                "https://ficussword.top/api/auth/login", 
+                "/api/auth/login",
                 {
                     name: username,
                     age: password
@@ -42,7 +42,7 @@ export function LoginPage() {
                 setPassword("");
                 setError("");
     
-                window.location.href = "/home";
+                window.location.href = "/Catalog";
             }
         } catch (err) {
             console.error("Login failed:", err);
@@ -63,7 +63,7 @@ export function LoginPage() {
     const handleLogout = async () => {
         console.log("Logout...");
             
-        await axios.post("http://ficussword.top/api/auth/logout", {}, {
+        await axios.post("/api/auth/logout", {}, {
             withCredentials: true,
         });
 

@@ -55,3 +55,24 @@
 .delete-btn {
   margin-left: 5px;
 }
+
+/* schedule */
+.schedule-day-header {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--bs-primary, #0d6efd);
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+
+.schedule-entry {
+  background: var(--bg-secondary);
+  font-size: 0.95rem;
+}
+
+.schedule-time {
+  min-width: 50px;
+  color: var(--bs-primary, #0d6efd);
+}

@@ -1,0 +1,150 @@
+.catalog-container {
+  background: linear-gradient(135deg, rgba(10, 10, 20, 0.95), rgba(20, 20, 40, 0.95));
+  min-height: 100vh;
+}
+
+.catalog-card {
+  background: rgba(30, 30, 50, 0.8);
+  border: 1px solid rgba(100, 150, 255, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  color: white;
+}
+
+.catalog-card:hover {
+  border-color: rgba(100, 150, 255, 0.8);
+  box-shadow: 0 8px 25px rgba(100, 150, 255, 0.2);
+  transform: translateY(-5px);
+}
+
+.catalog-card img {
+  height: 300px;
+  object-fit: cover;
+}
+
+.catalog-card h5,
+.catalog-card .card-title {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.5rem;
+}
+
+.card-meta .year {
+  background: rgba(100, 150, 255, 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.card-meta .rating {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+/* Фильтр */
+.filter-card {
+  background: rgba(30, 30, 50, 0.8);
+  border: 1px solid rgba(100, 150, 255, 0.3);
+  border-radius: 12px;
+  color: white;
+  position: sticky;
+  top: 20px;
+}
+
+.filter-card h5 {
+  color: #6496ff;
+  border-bottom: 2px solid rgba(100, 150, 255, 0.3);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.filter-card .form-label {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.filter-card .form-select {
+  background: rgba(20, 20, 40, 0.8);
+  border: 1px solid rgba(100, 150, 255, 0.3);
+  color: white;
+}
+
+.filter-card .form-select option {
+  background: #1a1a2e;
+  color: white;
+}
+
+.filter-card .form-select:focus {
+  border-color: rgba(100, 150, 255, 0.8);
+  box-shadow: 0 0 10px rgba(100, 150, 255, 0.2);
+}
+
+.filter-card .btn-outline-secondary {
+  color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(100, 150, 255, 0.3);
+}
+
+.filter-card .btn-outline-secondary:hover {
+  background: rgba(100, 150, 255, 0.2);
+  border-color: rgba(100, 150, 255, 0.8);
+  color: white;
+}
+
+/* Пагинация */
+.pagination {
+  background: rgba(30, 30, 50, 0.8);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(100, 150, 255, 0.3);
+}
+
+.page-item .page-link {
+  background: rgba(20, 20, 40, 0.8);
+  border: 1px solid rgba(100, 150, 255, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.page-item .page-link:hover {
+  background: rgba(100, 150, 255, 0.2);
+  border-color: rgba(100, 150, 255, 0.8);
+  color: white;
+}
+
+.page-item.active .page-link {
+  background: rgba(100, 150, 255, 0.5);
+  border-color: rgba(100, 150, 255, 0.8);
+  color: white;
+}
+
+.page-item.disabled .page-link {
+  color: rgba(100, 150, 255, 0.3);
+  cursor: not-allowed;
+}
+
+/* Демо плеер */
+.player-demo {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .filter-card {
+    position: static;
+    margin-bottom: 2rem;
+  }
+
+  .catalog-card img {
+    height: 250px;
+  }
+}

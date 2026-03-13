@@ -31,7 +31,7 @@ const WatchPage: React.FC = () => {
     setSearchResults([]);
 
     try {
-      const response = await fetch(`http://ficussword.top/api/anime/search?q=${encodeURIComponent(searchInput)}`);
+      const response = await fetch(`/api/anime/search?q=${encodeURIComponent(searchInput)}`);
       const data = await response.json();
 
       if (data.success && data.results) {
