@@ -137,7 +137,7 @@ export function Catalog() {
                   />
                   <div className="anime-card-body">
                     <p className="anime-card-title">{item.title}</p>
-                    <span className="anime-card-year">{item.year}</span>
+                    <div className="anime-card-year"><span>{item.year}</span></div>
                   </div>
                 </div>
               ))

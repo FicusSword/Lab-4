@@ -45,12 +45,16 @@
 .mainpage-container {
   padding: 48px 24px 80px;
   background: transparent;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .mainpage-container > section {
   max-width: 1280px;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
+  box-sizing: border-box;
 }
 
 /* ─── Hero ──────────────────────────────────────────────────────── */
@@ -404,7 +408,7 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 20px;
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
 }
 

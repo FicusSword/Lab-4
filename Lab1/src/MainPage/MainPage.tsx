@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "./MainPage.css";
 
 interface Anime {
@@ -100,38 +99,6 @@ export function MainPage() {
     { id: 6, title: "Fate/Stay Night",           image: "https://img.cdngos.com/anime/69/698ef80fb9fc9713696516" },
   ];
 
-  useEffect(() => {
-    const validateToken = async () => {
-      try {
-        const response = await axios.get("/api/check-token", { withCredentials: true });
-        console.log("Token is valid:", response.data);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error("Error message:", error.message);
-        } else {
-          console.error("An unknown error occurred");
-        }
-
-        if (axios.isAxiosError(error) && error.response?.status === 401) {
-          try {
-            const refreshResponse = await axios.post("/api/auth/refresh", {}, { withCredentials: true });
-            console.log("Token refreshed:", refreshResponse.data);
-          } catch (refreshError: unknown) {
-            if (refreshError instanceof Error) {
-              console.error("Token refresh failed:", refreshError.message);
-            } else {
-              console.error("An unknown error occurred while refreshing token");
-            }
-            window.location.href = "/";
-          }
-        } else {
-          window.location.href = "/";
-        }
-      }
-    };
-
-    validateToken();
-  }, []);
 
   return (
     <div className="mainpage-wrap">

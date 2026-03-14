@@ -46,10 +46,10 @@ export function Characters() {
               console.error("An unknown error occurred while refreshing token");
             }
 
-            window.location.href = "/";
+            window.location.href = "/home";
           }
         } else {
-          window.location.href = "/";
+          window.location.href = "/home";
         }
       }
     };

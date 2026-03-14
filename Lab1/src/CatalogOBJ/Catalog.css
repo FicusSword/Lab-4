@@ -166,13 +166,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 12px 14px;
-  gap: 8px;
+  padding: 14px 12px 12px; /* top - отступ от постера, sides, bottom */
+  gap: 15px; /* отступ между названием и годом */
 }
 
 .anime-card-title {
   color: #fff;
-  font-size: 0.88rem;
+  font-size: 1.1rem !important;
   font-weight: 600;
   text-align: center;
   line-height: 1.35;
@@ -184,12 +184,16 @@
 }
 
 .anime-card-year {
+  color: rgba(245, 245, 245, 0.8);
+  font-size: 1.0rem;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.anime-card-year span {
   background: #202E52;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 3px 12px;
-  border-radius: 4px;
+  padding: 4px 12px;
+  border-radius: 8px;
 }
 
 /* ══════════════════════════════════════════════

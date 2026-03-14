@@ -42,7 +42,7 @@ export function LoginPage() {
                 setPassword("");
                 setError("");
     
-                window.location.href = "/Catalog";
+                window.location.href = "/home";
             }
         } catch (err) {
             console.error("Login failed:", err);

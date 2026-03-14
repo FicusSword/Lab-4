@@ -7,7 +7,7 @@ import './MainPage/MainPage.css';
 import NavbarComponent from './Navbar/Navbar.tsx';
 import Footer from './Footer';
 import MouseTracker from './MouseTracker';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Characters } from './CharactersOBJ/Characters';
 import { Catalog } from './CatalogOBJ/Catalog';
 import { CatalogDetail } from './CatalogOBJ/CatalogDetail';
@@ -17,6 +17,7 @@ import { RegisterPage } from './AuthOBJ/RegisterPage';
 import { AdminPanel } from './AdminPanel/AdminPanel';
 import { MainPage } from './MainPage/MainPage';
 import WatchPage from './WatchPage/WatchPage';
+import ProfilePage from './ProfilePage/ProfilePage';
 
 
 
@@ -30,6 +31,7 @@ const App: React.FC = () => {
       
       <main style={{ flex: 1 }}>
         <Routes>
+          <Route path="/" element={<Navigate to="/home" replace />}/>
           <Route path="" element={<LoginPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="/home" element={<MainPage/>}/>
@@ -39,6 +41,7 @@ const App: React.FC = () => {
           <Route path="/watch" element={<WatchPage/>}/>
           <Route path="/page" element={<Page/>}/>
           <Route path="/Admin" element={<AdminPanel/>}/>
+          <Route path="/profile" element={<ProfilePage/>}/>
           <Route path="/product/:productId" element={<Page/>} />
         </Routes>
       </main>

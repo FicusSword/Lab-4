@@ -54,12 +54,14 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // ��������� ������
-string GenerateJwtToken(int clientId, string name)
+string GenerateJwtToken(int clientId, string name, bool isAdmin = false, string? nickname = null)
 {
     var claims = new[]
     {
         new Claim(ClaimTypes.Name, name),
-        new Claim("ClientId", clientId.ToString())
+        new Claim("ClientId", clientId.ToString()),
+        new Claim("IsAdmin", isAdmin.ToString()),
+        new Claim("Nickname", nickname ?? name)
     };
 
     var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
@@ -86,8 +88,7 @@ app.MapPost("/api/auth/login", async (Client loginData, ApplicationContext db, H
             return Results.Json(new { message = "Invalid username or password" }, statusCode: 401);
         }
 
-        var accessToken = GenerateJwtToken(client.Id, client.Name);
-        // ��������� ������ ������
+        var accessToken = GenerateJwtToken(client.Id, client.Name, client.IsAdmin, client.Nickname);
         var refreshToken = Guid.NewGuid().ToString();
         client.RefreshToken = refreshToken;
         await db.SaveChangesAsync();
@@ -165,7 +166,7 @@ app.MapPost("/api/auth/refresh", async (HttpContext httpContext, ApplicationCont
             return Results.Json(new { message = "Invalid refresh token" }, statusCode: 401);
         }
 
-        var newAccessToken = GenerateJwtToken(client.Id, client.Name);
+        var newAccessToken = GenerateJwtToken(client.Id, client.Name, client.IsAdmin, client.Nickname);
         var newRefreshToken = Guid.NewGuid().ToString();
         client.RefreshToken = newRefreshToken;
         await db.SaveChangesAsync();
@@ -304,17 +305,24 @@ app.MapDelete("/api/products/{id:int}", [Authorize] async (int id, ApplicationCo
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// Admin login — returns JWT in response body
-app.MapPost("/api/admin/login", (AdminLoginRequest req, IConfiguration config) =>
+// Admin login — проверяет IsAdmin из обычного JWT в куке
+app.MapGet("/api/admin/check", (HttpContext httpContext) =>
 {
-    var adminUsername = config["Admin:Username"] ?? "admin";
-    var adminPassword = config["Admin:Password"] ?? "admin123";
+    var token = httpContext.Request.Cookies["accessToken"];
+    if (token == null) return Results.Json(new { isAdmin = false }, statusCode: 401);
 
-    if (req.Username != adminUsername || req.Password != adminPassword)
-        return Results.Json(new { message = "Invalid credentials" }, statusCode: 401);
-
-    var token = GenerateJwtToken(0, "admin");
-    return Results.Json(new { token });
+    try
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var jwt = handler.ReadJwtToken(token);
+        var isAdmin = jwt.Claims.FirstOrDefault(c => c.Type == "IsAdmin")?.Value == "True";
+        if (!isAdmin) return Results.Json(new { isAdmin = false }, statusCode: 403);
+        return Results.Json(new { isAdmin = true });
+    }
+    catch
+    {
+        return Results.Json(new { isAdmin = false }, statusCode: 401);
+    }
 });
 
 

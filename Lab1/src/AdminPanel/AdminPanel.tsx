@@ -20,10 +20,7 @@ interface Schedule {
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 export function AdminPanel() {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [token, setToken] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [activeTab, setActiveTab] = useState<'products' | 'schedule'>('products');
 
@@ -52,8 +49,21 @@ export function AdminPanel() {
   const [editingSchedule, setEditingSchedule] = useState<Schedule | null>(null);
 
   useEffect(() => {
-    fetchProducts();
-    fetchSchedules();
+    const checkAdmin = async () => {
+      try {
+        const res = await fetch('/api/admin/check', { credentials: 'include' });
+        if (res.ok) {
+          setIsLoggedIn(true);
+          fetchProducts();
+          fetchSchedules();
+        } else {
+          setError('Нет доступа. Войдите как администратор.');
+        }
+      } catch {
+        setError('Сервер недоступен.');
+      }
+    };
+    checkAdmin();
   }, []);
 
   const fetchProducts = async () => {
@@ -78,26 +88,6 @@ export function AdminPanel() {
     }
   };
 
-  const handleLogin = async () => {
-    try {
-      const response = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
-      if (!response.ok) {
-        setError('Invalid username or password');
-        setToken('');
-        return;
-      }
-      const data = await response.json();
-      setToken(data.token);
-      setIsLoggedIn(true);
-      setError('');
-    } catch {
-      setError('Server error. Is the backend running?');
-    }
-  };
 
   // ---- Products ----
 
@@ -134,15 +124,16 @@ export function AdminPanel() {
 
   const authHeaders = () => ({
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`,
   });
+
+  const authOptions = { credentials: 'include' as RequestCredentials };
 
   const addProduct = async () => {
     if (newProduct.title && newProduct.description && newProduct.image) {
       try {
         const response = await fetch('/api/products', {
           method: 'POST',
-          headers: authHeaders(),
+          headers: authHeaders(), ...authOptions,
           body: JSON.stringify(newProduct),
         });
         if (!response.ok) throw new Error('Failed to add product');
@@ -162,7 +153,7 @@ export function AdminPanel() {
       try {
         const response = await fetch(`/api/products/${editingProduct.id}`, {
           method: 'PUT',
-          headers: authHeaders(),
+          headers: authHeaders(), ...authOptions,
           body: JSON.stringify(editingProduct),
         });
         if (!response.ok) throw new Error('Failed to update product');
@@ -176,7 +167,7 @@ export function AdminPanel() {
 
   const deleteProduct = async (id: number) => {
     try {
-      const response = await fetch(`/api/products/${id}`, { method: 'DELETE', headers: authHeaders() });
+      const response = await fetch(`/api/products/${id}`, { method: 'DELETE', headers: authHeaders(), ...authOptions });
       if (!response.ok) throw new Error('Failed to delete product');
       setProducts(prev => prev.filter(p => p.id !== id));
     } catch (error) {
@@ -204,7 +195,7 @@ export function AdminPanel() {
       try {
         const response = await fetch('/api/schedule', {
           method: 'POST',
-          headers: authHeaders(),
+          headers: authHeaders(), ...authOptions,
           body: JSON.stringify(newSchedule),
         });
         if (!response.ok) throw new Error('Failed to add schedule');
@@ -223,7 +214,7 @@ export function AdminPanel() {
       try {
         const response = await fetch(`/api/schedule/${editingSchedule.id}`, {
           method: 'PUT',
-          headers: authHeaders(),
+          headers: authHeaders(), ...authOptions,
           body: JSON.stringify(editingSchedule),
         });
         if (!response.ok) throw new Error('Failed to update schedule');
@@ -237,7 +228,7 @@ export function AdminPanel() {
 
   const deleteSchedule = async (id: number) => {
     try {
-      const response = await fetch(`/api/schedule/${id}`, { method: 'DELETE', headers: authHeaders() });
+      const response = await fetch(`/api/schedule/${id}`, { method: 'DELETE', headers: authHeaders(), ...authOptions });
       if (!response.ok) throw new Error('Failed to delete schedule');
       setSchedules(prev => prev.filter(s => s.id !== id));
     } catch (error) {
@@ -469,28 +460,10 @@ export function AdminPanel() {
   }
 
   return (
-    <div className="login-form container mt-4">
-      <h1>Login to Admin Panel</h1>
-      <div className="mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div className="mb-3">
-        <input
-          type="password"
-          className="form-control"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <button onClick={handleLogin} className="btn btn-primary">Login</button>
-      {error && <p className="text-danger mt-3">{error}</p>}
+    <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
+      <h2 style={{ color: '#f1f5f9' }}>Доступ запрещён</h2>
+      <p style={{ color: '#94a3b8' }}>{error || 'У вас нет прав администратора.'}</p>
+      <a href="/" style={{ color: '#818cf8' }}>Войти в аккаунт</a>
     </div>
   );
 }
