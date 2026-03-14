@@ -67,7 +67,7 @@ string GenerateJwtToken(int clientId, string name)
         issuer: "ficussword.top",
         audience: "ficussword.top",
         claims: claims,
-        expires: DateTime.UtcNow.AddMinutes(5),
+        expires: DateTime.UtcNow.AddHours(8),
         signingCredentials: credentials
     );
 
@@ -92,12 +92,12 @@ app.MapPost("/api/auth/login", async (Client loginData, ApplicationContext db, H
         client.RefreshToken = refreshToken;
         await db.SaveChangesAsync();
 
-        // Общие настройки для всех cookies
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ cookies
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
             Secure = true,
-            SameSite = SameSiteMode.Lax,  // Используем Lax для обоих
+            SameSite = SameSiteMode.Lax,  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Lax пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             Domain = "ficussword.top",
             Expires = DateTime.UtcNow.AddDays(1)
         };
@@ -106,7 +106,7 @@ app.MapPost("/api/auth/login", async (Client loginData, ApplicationContext db, H
         {
             HttpOnly = true,
             Secure = true,
-            SameSite = SameSiteMode.Lax,  // Используем Lax для обоих
+            SameSite = SameSiteMode.Lax,  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Lax пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             Domain = "ficussword.top",
             Expires = DateTime.UtcNow.AddMinutes(5)
         };
@@ -170,7 +170,7 @@ app.MapPost("/api/auth/refresh", async (HttpContext httpContext, ApplicationCont
         client.RefreshToken = newRefreshToken;
         await db.SaveChangesAsync();
 
-        // Используем те же настройки что и в login
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅ login
         var accessCookieOptions = new CookieOptions
         {
             HttpOnly = true,

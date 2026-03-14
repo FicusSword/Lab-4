@@ -103,7 +103,7 @@
 .anime-meta::after {
   content: '';
   position: absolute;
-  bottom: -68px;
+  bottom: -0px;
   left: 0;
   right: 0;
   height: 1px;
