@@ -1,150 +1,283 @@
-.catalog-container {
-  background: linear-gradient(135deg, rgba(10, 10, 20, 0.95), rgba(20, 20, 40, 0.95));
+/* ═══════════════════════════════════════════════
+   CATALOG PAGE
+═══════════════════════════════════════════════ */
+
+.catalog-page {
   min-height: 100vh;
+  background: #080C1A;
+  padding: 32px 24px 60px;
 }
 
-.catalog-card {
-  background: rgba(30, 30, 50, 0.8);
-  border: 1px solid rgba(100, 150, 255, 0.3);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: all 0.3s ease;
+/* ── Layout ── */
+.catalog-layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+/* ══════════════════════════════════════════════
+   SIDEBAR FILTERS
+══════════════════════════════════════════════ */
+.catalog-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 24px;
+}
+
+.sidebar-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6496ff;
+  margin-bottom: 16px;
+}
+
+.filter-block {
+  margin-bottom: 20px;
+}
+
+.filter-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 8px;
+}
+
+.filter-select {
+  width: 100%;
+  background: #0F1527;
+  border: 1px solid #1B2146;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.85rem;
+  padding: 9px 12px;
+  outline: none;
   cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236496ff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+  transition: border-color 0.2s;
+}
+
+.filter-select:focus {
+  border-color: #6496ff;
+}
+
+.filter-select option {
+  background: #0F1527;
   color: white;
 }
 
-.catalog-card:hover {
-  border-color: rgba(100, 150, 255, 0.8);
-  box-shadow: 0 8px 25px rgba(100, 150, 255, 0.2);
-  transform: translateY(-5px);
+.reset-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #1B2146;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 4px;
 }
 
-.catalog-card img {
-  height: 300px;
-  object-fit: cover;
+.reset-btn:hover {
+  border-color: #6496ff;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.catalog-card h5,
-.catalog-card .card-title {
-  color: #fff;
-  margin-bottom: 0.5rem;
+/* ══════════════════════════════════════════════
+   MAIN CONTENT
+══════════════════════════════════════════════ */
+.catalog-main {
+  flex: 1;
+  min-width: 0;
 }
 
-.card-meta {
+.catalog-header {
   display: flex;
-  justify-content: space-between;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 0.5rem;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
-.card-meta .year {
-  background: rgba(100, 150, 255, 0.2);
-  padding: 0.25rem 0.5rem;
+.catalog-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.catalog-count {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Card Grid ── */
+.catalog-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* ══════════════════════════════════════════════
+   CARD  (220 × 440)
+══════════════════════════════════════════════ */
+.anime-card {
+  width: 220px;
+  height: 440px;
+  background: #0F1527;
+  border: 2px solid #1B2146;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.anime-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(100, 150, 255, 0.6);
+  box-shadow: 0 12px 32px rgba(100, 150, 255, 0.2);
+}
+
+.anime-card-img {
+  width: 100%;
+  height: 310px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  flex-shrink: 0;
+}
+
+.anime-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 14px;
+  gap: 8px;
+}
+
+.anime-card-title {
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.35;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.anime-card-year {
+  background: #202E52;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 3px 12px;
   border-radius: 4px;
 }
 
-.card-meta .rating {
-  color: #ffc107;
-  font-weight: bold;
+/* ══════════════════════════════════════════════
+   PAGINATION
+══════════════════════════════════════════════ */
+.catalog-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 40px;
 }
 
-/* Фильтр */
-.filter-card {
-  background: rgba(30, 30, 50, 0.8);
-  border: 1px solid rgba(100, 150, 255, 0.3);
-  border-radius: 12px;
-  color: white;
-  position: sticky;
-  top: 20px;
-}
-
-.filter-card h5 {
-  color: #6496ff;
-  border-bottom: 2px solid rgba(100, 150, 255, 0.3);
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.filter-card .form-label {
-  color: rgba(255, 255, 255, 0.9);
+.page-btn {
+  width: 36px;
+  height: 36px;
+  background: #0F1527;
+  border: 1px solid #1B2146;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
   font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
 }
 
-.filter-card .form-select {
-  background: rgba(20, 20, 40, 0.8);
-  border: 1px solid rgba(100, 150, 255, 0.3);
+.page-btn:hover:not(:disabled) {
+  border-color: #6496ff;
   color: white;
 }
 
-.filter-card .form-select option {
-  background: #1a1a2e;
+.page-btn.active {
+  background: #6496ff;
+  border-color: #6496ff;
   color: white;
 }
 
-.filter-card .form-select:focus {
-  border-color: rgba(100, 150, 255, 0.8);
-  box-shadow: 0 0 10px rgba(100, 150, 255, 0.2);
-}
-
-.filter-card .btn-outline-secondary {
-  color: rgba(255, 255, 255, 0.8);
-  border-color: rgba(100, 150, 255, 0.3);
-}
-
-.filter-card .btn-outline-secondary:hover {
-  background: rgba(100, 150, 255, 0.2);
-  border-color: rgba(100, 150, 255, 0.8);
-  color: white;
-}
-
-/* Пагинация */
-.pagination {
-  background: rgba(30, 30, 50, 0.8);
-  padding: 1rem;
-  border-radius: 12px;
-  border: 1px solid rgba(100, 150, 255, 0.3);
-}
-
-.page-item .page-link {
-  background: rgba(20, 20, 40, 0.8);
-  border: 1px solid rgba(100, 150, 255, 0.3);
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.page-item .page-link:hover {
-  background: rgba(100, 150, 255, 0.2);
-  border-color: rgba(100, 150, 255, 0.8);
-  color: white;
-}
-
-.page-item.active .page-link {
-  background: rgba(100, 150, 255, 0.5);
-  border-color: rgba(100, 150, 255, 0.8);
-  color: white;
-}
-
-.page-item.disabled .page-link {
-  color: rgba(100, 150, 255, 0.3);
+.page-btn:disabled {
+  opacity: 0.3;
   cursor: not-allowed;
 }
 
-/* Демо плеер */
-.player-demo {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 8px;
-  overflow: hidden;
-  background: rgba(0, 0, 0, 0.5);
+.page-arrow {
+  width: auto;
+  padding: 0 14px;
+  font-size: 0.8rem;
 }
 
-@media (max-width: 768px) {
-  .filter-card {
-    position: static;
-    margin-bottom: 2rem;
+/* ══════════════════════════════════════════════
+   EMPTY STATE
+══════════════════════════════════════════════ */
+.catalog-empty {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.95rem;
+  text-align: center;
+  margin-top: 60px;
+  width: 100%;
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .catalog-layout {
+    flex-direction: column;
   }
 
-  .catalog-card img {
-    height: 250px;
+  .catalog-sidebar {
+    width: 100%;
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
   }
+
+  .sidebar-title { width: 100%; margin-bottom: 4px; }
+  .filter-block { margin-bottom: 0; flex: 1; min-width: 160px; }
+  .reset-btn { margin-top: 22px; }
+}
+
+@media (max-width: 540px) {
+  .catalog-page { padding: 20px 12px 40px; }
+  .catalog-grid { gap: 12px; justify-content: center; }
+  .anime-card { width: 160px; height: 320px; }
+  .anime-card-img { height: 225px; }
+  .anime-card-title { font-size: 0.78rem; }
 }
