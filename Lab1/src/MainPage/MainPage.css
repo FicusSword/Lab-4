@@ -328,11 +328,7 @@
   font-size: 0.85rem;
   color: var(--text-secondary);
   font-weight: 500;
-  background: rgba(255,255,255,0.04);
   padding: 5px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(8px);
 }
 
 .featured-description {

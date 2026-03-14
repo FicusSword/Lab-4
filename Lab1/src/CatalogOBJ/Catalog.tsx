@@ -41,6 +41,8 @@ export function Catalog() {
   const [sortBy,       setSortBy]       = useState("default");
   const [currentPage,  setCurrentPage]  = useState(1);
 
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
   const filtered = useMemo(() => {
     let list = [...DEMO];
 

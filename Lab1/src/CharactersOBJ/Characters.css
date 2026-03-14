@@ -4,6 +4,8 @@
   overflow: hidden;
   border-radius: 12px;
   cursor: pointer;
+  -webkit-mask-image: -webkit-radial-gradient(white, black); /* Safari overflow:hidden + border-radius fix */
+  transform: translateZ(0);
 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
