@@ -250,8 +250,7 @@ export function AdminPanel() {
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h1 className="mb-0">Admin Panel</h1>
           <div>
-            <span className="me-3">Welcome, <strong>{username}</strong></span>
-            <button className="btn btn-outline-secondary btn-sm" onClick={() => { setIsLoggedIn(false); setToken(''); setUsername(''); setPassword(''); }}>
+            <button className="btn btn-outline-secondary btn-sm" onClick={() => setIsLoggedIn(false)}>
               Logout
             </button>
           </div>
