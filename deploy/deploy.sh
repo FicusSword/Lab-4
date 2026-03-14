@@ -4,7 +4,7 @@
 
 set -e  # остановить при любой ошибке
 
-REPO_DIR="/var/www/ficussword/repo"
+REPO_DIR="/var/www/ficussword"
 FRONTEND_OUT="/var/www/ficussword/frontend"
 BACKEND_OUT="/var/www/ficussword/backend"
 NODE_OUT="/var/www/ficussword/node"
